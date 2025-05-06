@@ -7,13 +7,17 @@ języków C++/C#/Python i powinna w pełni działać w konsoli.
 Pasjans to jednoosobowa gra karciana, w której celem jest uporządkowanie
 wszystkich kart według koloru i wartości w czterech stosach końcowych (od asa do
 króla).
-Przygotowanie gry:
+
+### Przygotowanie gry:
+
 Talia kart
 - Do gry używa się standardowej talii 52 kart (bez jokerów).
-- Karty mają cztery kolory: kier (♥), karo (♦), pik (♠) i trefl (♣). Karty kier i karo
-powinny być wyświetlane innym kolorem czcionki niż karty pik i trefl.
+- Karty mają cztery kolory: kier (♥), karo (♦), pik (♠) i trefl (♣).
+  Karty kier i karo powinny być wyświetlane innym kolorem czcionki niż karty pik i trefl.
 - Każdy kolor zawiera karty o wartościach od asa (A) do króla (K).
-Układ początkowy
+
+### Układ początkowy
+
 - Kolumny gry
   - Tworzy się 7 kolumn, w których układ kart wygląda następująco:
     - Pierwsza kolumna: 1 karta (odkryta)
@@ -31,7 +35,9 @@ dobiera się 3 karty, ale użyć można tylko wierzchniej.
 - Stosy końcowe
   - Cztery puste miejsca, na które należy przenieść wszystkie karty według
 kolorów – od asa do króla.
-Rozgrywka
+
+### Rozgrywka
+
 Przenoszenie kart w kolumnach
 - Można przesuwać karty, które są ułożone w kolejności malejącej (K → Q → J
 … 2 → A).
@@ -55,9 +61,13 @@ Dobieranie kart ze stosu rezerwowego:
   - Dobieranie według zasad opisanych w punkcie Stos rezerwowy.
   - Jeśli stos dobierania się wyczerpie, należy go przetasować i ponownie
 użyć.
-Cofanie ruchów:
+
+### Cofanie ruchów:
+
 - Gra powinna umożliwiać cofnięcie 3 ostatnich ruchów gracza.
-Zakończenie gry
+
+### Zakończenie gry
+
 - Wygrana:
 Po ułożeniu wszystkich kart na stosach końcowych powinien pojawić się ekran
 wygranej. Gra powinna zliczać liczbę ruchów, w których gracz ułożył pasjansa i
@@ -93,8 +103,7 @@ formie komentarzy w kodzie lub w osobnym pliku.
 
 - 30 pkt - spełnienie założeń projektowych (implementacja mechanik opisanych
 w części 1. “Opis gry”)
-- 30 pkt - architektura rozwiązania (organizacja kodu, dobre praktyki
-programistyczne)
+- 30 pkt - architektura rozwiązania (organizacja kodu, dobre praktyki programistyczne)
 - 20 pkt - poziom techniczny projektu (poziom użytych technologii)
 - 15 pkt - kreatywność, innowacyjność i aspekt wizualny
 - 5 pkt - dokumentacja, przygotowana zgodnie z opisem w części 3.

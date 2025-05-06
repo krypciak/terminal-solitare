@@ -10,28 +10,18 @@
 
 namespace myproj
 {
-    using Microsoft.Extensions.Logging;
-    using Terminal.Gui;
 
-
-    enum Difficulty
+    public partial class StartView
     {
-        Easy,
-        Hard
-    }
-
-
-    public partial class MyView
-    {
-
-        public MyView()
+        public StartView()
         {
             InitializeComponent();
             startButton.Accepting += (s, e) =>
             {
                 int index = difficultyRadio.SelectedItem;
                 Difficulty difficulty = index == 0 ? Difficulty.Easy : Difficulty.Hard;
-                MessageBox.Query("Game", "difficulty" + difficulty, "Ok");
+
+                new Game(difficulty);
             };
         }
     }

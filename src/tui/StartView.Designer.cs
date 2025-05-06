@@ -17,7 +17,7 @@ namespace myproj {
     using System.Drawing;
     
     
-    public partial class MyView : Terminal.Gui.Window {
+    public partial class StartView : Terminal.Gui.Window {
         
         private Terminal.Gui.ColorScheme greyOnBlack;
         
@@ -91,11 +91,10 @@ namespace myproj {
             this.startButton.Y = Pos.Center() + 3;
             this.startButton.Visible = true;
             this.startButton.Arrangement = Terminal.Gui.ViewArrangement.Fixed;
-            this.startButton.ColorScheme = this.blueOnBlack;
             this.startButton.CanFocus = true;
             this.startButton.ShadowStyle = Terminal.Gui.ShadowStyle.Opaque;
             this.startButton.Data = "startButton";
-            this.startButton.Text = "Rozpocznij gręki";
+            this.startButton.Text = "Rozpocznij grę";
             this.startButton.TextAlignment = Terminal.Gui.Alignment.Center;
             this.startButton.IsDefault = false;
             this.Add(this.startButton);
