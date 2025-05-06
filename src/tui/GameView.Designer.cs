@@ -16,22 +16,12 @@ namespace myproj
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Drawing;
-
+    using Color = Terminal.Gui.Color;
 
     public partial class GameView : Terminal.Gui.Window
     {
 
-        private Terminal.Gui.ColorScheme greyOnBlack;
-
-        private Terminal.Gui.ColorScheme tgDefault;
-
-        private Terminal.Gui.ColorScheme blueOnBlack;
-
-        private Terminal.Gui.ColorScheme redOnBlack;
-
-        private Terminal.Gui.ColorScheme greenOnBlack;
-
-        private Terminal.Gui.ColorScheme whiteOnGray;
+        private Terminal.Gui.ColorScheme greenScheme;
 
         private Terminal.Gui.Label difficultyLabel;
 
@@ -44,19 +34,20 @@ namespace myproj
             this.startButton = new Terminal.Gui.Button();
             this.difficultyRadio = new Terminal.Gui.RadioGroup();
             this.difficultyLabel = new Terminal.Gui.Label();
-            this.greyOnBlack = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(4285953654u, 4278190080u), new Terminal.Gui.Attribute(4278190080u, 4285953654u), new Terminal.Gui.Attribute(4285953654u, 4278190080u), new Terminal.Gui.Attribute(4285953654u, 4278190080u), new Terminal.Gui.Attribute(4278190080u, 4285953654u));
-            this.tgDefault = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(4294967295u, 4278190335u), new Terminal.Gui.Attribute(4278190080u, 4286611584u), new Terminal.Gui.Attribute(4284602070u, 4278190335u), new Terminal.Gui.Attribute(4294967040u, 4278190335u), new Terminal.Gui.Attribute(4282087679u, 4286611584u));
-            this.blueOnBlack = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(4282087679u, 4278190080u), new Terminal.Gui.Attribute(4282087679u, 4294570405u), new Terminal.Gui.Attribute(4278255615u, 4278190080u), new Terminal.Gui.Attribute(4286611584u, 4278190080u), new Terminal.Gui.Attribute(4278255615u, 4294570405u));
-            this.redOnBlack = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(4294901760u, 4278190080u), new Terminal.Gui.Attribute(4294901760u, 4294967040u), new Terminal.Gui.Attribute(4293347414u, 4278190080u), new Terminal.Gui.Attribute(4286611584u, 4278190080u), new Terminal.Gui.Attribute(4293347414u, 4294967040u));
-            this.greenOnBlack = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(4278222848u, 4278190080u), new Terminal.Gui.Attribute(4278222848u, 4294902015u), new Terminal.Gui.Attribute(4279682572u, 4278190080u), new Terminal.Gui.Attribute(4286611584u, 4278190080u), new Terminal.Gui.Attribute(4279682572u, 4294902015u));
-            this.whiteOnGray = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(4294967295u, 4278190080u), new Terminal.Gui.Attribute(4294967295u, 4278190080u), new Terminal.Gui.Attribute(4294967295u, 4278190080u), new Terminal.Gui.Attribute(4294967295u, 4278190080u), new Terminal.Gui.Attribute(4294967295u, 4278190080u));
+            this.greenScheme = new Terminal.Gui.ColorScheme(
+                new Terminal.Gui.Attribute(Color.Black, Color.Green),
+                new Terminal.Gui.Attribute(Color.Black, Color.Green),
+                new Terminal.Gui.Attribute(Color.Black, Color.Green),
+                new Terminal.Gui.Attribute(Color.Black, Color.Green),
+                new Terminal.Gui.Attribute(Color.Black, Color.Green)
+            );
             this.Width = Dim.Fill(0);
             this.Height = Dim.Fill(0);
             this.X = 0;
             this.Y = 0;
             this.Visible = true;
             this.Arrangement = Terminal.Gui.ViewArrangement.Overlapped;
-            this.ColorScheme = this.blueOnBlack;
+            this.ColorScheme = this.greenScheme;
             this.CanFocus = true;
             this.ShadowStyle = Terminal.Gui.ShadowStyle.None;
             this.Modal = false;

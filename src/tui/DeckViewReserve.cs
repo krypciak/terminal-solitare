@@ -2,25 +2,22 @@ using Terminal.Gui;
 
 namespace myproj
 {
-    public class DeckViewReserve : DeckView
+    public class DeckViewReserve : DeckView<DeckReserve>
     {
-        public DeckViewReserve(Deck deck, Pos x, Pos y) : base(deck, x, y) { }
+        public DeckViewReserve(DeckReserve deck, Pos x, Pos y) : base(deck, x, y) { }
 
-        protected override void CreateCardViews()
+        override protected (int, int) GetCardPositionByDeckPosition(int deckPosition)
         {
-            var cardCount = deck.cards.Length;
+            return (0, 0);
+        }
+        override protected bool ShoudCardBeHidden(int deckPosition)
+        {
+            return deckPosition != _deck.cards.Count - 1;
+        }
 
-            var baseView = new CardBaseView(0, 0, cardCount == 0);
-            this.Add(baseView);
-
-            for (int i = 0; i < cardCount; i++)
-            {
-                var card = deck.cards[i];
-                bool last = i == cardCount - 1;
-                var view = new CardView(card, 0, 0, false, i, last);
-                cardViews.Append(view);
-                this.Add(view);
-            }
+        protected override void CreateBaseView()
+        {
+            baseView = new CardBaseView(0, 0, _deck.cards.Count == 0);
         }
     }
 }

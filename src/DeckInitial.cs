@@ -2,7 +2,12 @@ namespace myproj
 {
     public class DeckInitial : Deck
     {
-        public DeckInitial(Card[] cards) : base(cards) { }
+        public DeckInitial(List<Card> cards) : base(cards) { }
+
+        public override bool CanMoveCardHere(Card card)
+        {
+            return false;
+        }
 
     }
 }

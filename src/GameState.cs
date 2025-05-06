@@ -1,3 +1,4 @@
+
 namespace myproj
 {
     public class GameState
@@ -30,10 +31,10 @@ namespace myproj
                 }
                 cards[i] = allCards[allCardsI++];
 
-                this.initialDecks[i] = new DeckInitial(cards);
+                this.initialDecks[i] = new DeckInitial(cards.ToList());
             }
 
-            reserveDeck = new DeckReserve(allCards.Skip(allCardsI).ToArray());
+            reserveDeck = new DeckReserve(allCards.Skip(allCardsI).ToList());
         }
 
         private static Card[] GetFullCardList()

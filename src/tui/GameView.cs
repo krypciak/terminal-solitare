@@ -19,28 +19,33 @@ namespace myproj
         private DeckViewInitial[] initialDeckViews;
         private DeckViewReserve reserveDecView;
 
+        public static IDeckView selectedDeck = null;
+
         public GameView(GameState gameState)
         {
             InitializeComponent();
 
-            finalDeckViews = gameState.finalDecks.Select((deck, i) =>
-            {
-                var deckView = new DeckViewFinal(deck, Pos.Absolute(3 + (i * (CardView.width + 1))), Pos.Absolute(3));
-                this.Add(deckView);
-                return deckView;
-            }
-            ).ToArray();
-
+            var initialDeckY = 3;
             initialDeckViews = gameState.initialDecks.Select((deck, i) =>
             {
-                var deckView = new DeckViewInitial(deck, Pos.Absolute(3 + (i * (CardView.width + 1))), Pos.Absolute(15));
+                var deckView = new DeckViewInitial(deck, Pos.Absolute(3 + (i * (CardView.width + 1))), Pos.Absolute(initialDeckY));
                 this.Add(deckView);
                 return deckView;
             }
             ).ToArray();
 
+            var finalDeckY = initialDeckY + CardView.height + 7 + 3;
+            finalDeckViews = gameState.finalDecks.Select((deck, i) =>
             {
-                reserveDecView = new DeckViewReserve(gameState.reserveDeck, Pos.Absolute(50), Pos.Absolute(3));
+                var deckView = new DeckViewFinal(deck, Pos.Absolute(3 + (i * (CardView.width + 1))), Pos.Absolute(finalDeckY));
+                this.Add(deckView);
+                return deckView;
+            }
+            ).ToArray();
+
+
+            {
+                reserveDecView = new DeckViewReserve(gameState.reserveDeck, Pos.Absolute(50), Pos.Absolute(finalDeckY));
                 this.Add(reserveDecView);
             }
         }

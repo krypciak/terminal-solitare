@@ -1,18 +1,21 @@
 using Terminal.Gui;
+using Color = Terminal.Gui.Color;
 
 namespace myproj
 {
-    public class CardBaseView : Terminal.Gui.Label
+    public class CardBaseView : Button
     {
         public CardBaseView(Pos x, Pos y, bool focusable)
         {
             this.X = x;
             this.Y = y;
-            this.Width = Dim.Auto();
-            this.Height = Dim.Auto();
             this.Visible = true;
             this.CanFocus = focusable;
             this.Enabled = true;
+            this.ShadowStyle = ShadowStyle.Opaque;
+            this.HighlightStyle = HighlightStyle.None;
+            this.NoDecorations = true;
+            this.NoPadding = true;
 
             this.TextAlignment = Terminal.Gui.Alignment.Start;
             this.Text = $"       " + '\n' +
