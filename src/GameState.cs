@@ -6,7 +6,7 @@ namespace myproj
         public DeckInitial[] initialDecks { get; private set; }
         public DeckReserve reserveDeck { get; private set; }
 
-        public GameState()
+        public GameState(int seed)
         {
             finalDecks = [
                 new DeckFinal([], CardType.Karo),
@@ -15,20 +15,41 @@ namespace myproj
                  new DeckFinal([], CardType.Trefl)
             ];
 
+
+            var allCards = GetFullCardList();
+            (new Random(seed)).Shuffle(allCards);
+
+            var allCardsI = 0;
             initialDecks = new DeckInitial[7];
             for (int i = 0; i < 7; i++)
             {
                 Card[] cards = new Card[i + 1];
                 for (int j = 0; j < i; j++)
                 {
-                    cards[j] = new Card(CardType.Trefl, CardRank.As);
+                    cards[j] = allCards[allCardsI++];
                 }
-                cards[i] = new Card(CardType.Karo, CardRank.Dama);
+                cards[i] = allCards[allCardsI++];
 
-                this.initialDecks[i] = (new DeckInitial(cards));
+                this.initialDecks[i] = new DeckInitial(cards);
             }
 
-            reserveDeck = new DeckReserve([new Card(CardType.Karo, CardRank.K4)]);
+            reserveDeck = new DeckReserve(allCards.Skip(allCardsI).ToArray());
+        }
+
+        private static Card[] GetFullCardList()
+        {
+            Card[] cards = new Card[52];
+
+            var i = 0;
+            for (CardType type = CardType.Kier; type <= CardType.Trefl; type++)
+            {
+                for (CardRank rank = CardRank.As; rank <= CardRank.Krol; rank++)
+                {
+                    cards[i++] = new Card(type, rank);
+                }
+            }
+            return cards;
         }
     }
+
 }

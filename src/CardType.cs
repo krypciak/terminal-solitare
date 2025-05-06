@@ -2,9 +2,9 @@ namespace myproj
 {
     public enum CardType
     {
-        Kier,
-        Karo,
-        Pik,
-        Trefl
+        Kier = 0,
+        Karo = 1,
+        Pik = 2,
+        Trefl = 3
     }
 }

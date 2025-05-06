@@ -17,7 +17,7 @@ namespace myproj
 
         public Game(Difficulty difficulty)
         {
-            state = new GameState();
+            state = new GameState(123);
 
             view = new GameView(state);
             this.difficulty = difficulty;
