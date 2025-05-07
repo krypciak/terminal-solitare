@@ -50,7 +50,8 @@ namespace solitare
         }
 
         abstract protected (int, int) GetCardPositionByDeckPosition(int deckPosition);
-        abstract protected bool ShoudCardBeHidden(int deckPosition);
+        abstract protected bool ShouldCardBeHidden(int deckPosition);
+        abstract protected bool ShouldDisableFocusOnPushCardView();
         abstract protected void CreateBaseView();
 
         private void CreateCardViews()
@@ -65,7 +66,7 @@ namespace solitare
                 var card = _deck.cards[i];
                 bool last = i == cardCount - 1;
                 var (x, y) = GetCardPositionByDeckPosition(i);
-                var hidden = ShoudCardBeHidden(i);
+                var hidden = ShouldCardBeHidden(i);
                 var view = new CardView(card, x, y, hidden, i, last);
                 cardViews.Push(view);
                 this.Add(view);
@@ -77,7 +78,7 @@ namespace solitare
         {
             if (cardViews.TryPeek(out CardView? view))
             {
-                view.CanFocus = false;
+                if (ShouldDisableFocusOnPushCardView()) view.CanFocus = false;
             }
             else if (baseView != null)
             {

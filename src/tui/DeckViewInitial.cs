@@ -11,7 +11,7 @@ namespace solitare
         {
             return (0, deckPosition);
         }
-        override protected bool ShoudCardBeHidden(int deckPosition)
+        override protected bool ShouldCardBeHidden(int deckPosition)
         {
             return deckPosition != _deck.cards.Count - 1;
         }
@@ -19,6 +19,11 @@ namespace solitare
         protected override void CreateBaseView()
         {
             baseView = new CardBaseView(0, 0, _deck.cards.Count == 0);
+        }
+
+        protected override bool ShouldDisableFocusOnPushCardView()
+        {
+            return false;
         }
     }
 }
