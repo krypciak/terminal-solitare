@@ -37,10 +37,10 @@ namespace solitare
                 {
                     if (cardViews.Count > 0) GameView.selectedDeck = this;
                 }
-                else if (Game.game != null)
+                else if (GameView.selectedCard != null)
                 {
                     GameView.selectedDeck.ClearFocus();
-                    Game.game.TryMoveCard(this);
+                    Game.game?.TryMoveCard(this);
                 }
             };
         }
@@ -57,7 +57,15 @@ namespace solitare
             foreach (var view in cardViews) view.ClearFocus();
         }
 
-        private void CreateCardViews()
+
+        public void FullRedraw()
+        {
+            this.Remove(baseView);
+            foreach (var view in cardViews) this.Remove(view);
+            this.CreateCardViews();
+        }
+
+        protected void CreateCardViews()
         {
             var cardCount = _deck.cards.Count;
 

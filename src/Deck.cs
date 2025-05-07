@@ -5,7 +5,6 @@ namespace solitare
     public abstract class Deck
     {
         public List<Card> cards;
-        public bool showOnlyLast;
 
         public Deck(List<Card> cards)
         {

@@ -20,7 +20,7 @@ namespace solitare
             else
             {
                 var topCard = cards.Last();
-                if (topCard.rank != card.rank + 1) return Result.Fail("Karta musi być jeden wyższa!");
+                if (topCard.rank != card.rank - 1) return Result.Fail($"Karta musi być jeden wyższa!");
                 if (topCard.type != card.type) return Result.Fail("Karta musi być tego samego typu!");
                 return Result.Ok();
             }

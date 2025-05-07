@@ -4,7 +4,16 @@ namespace solitare
 {
     public class DeckViewReserve : DeckView<DeckReserve>
     {
-        public DeckViewReserve(DeckReserve deck, Pos x, Pos y) : base(deck, x, y) { }
+        private ReserveView nextButton;
+
+        public DeckViewReserve(DeckReserve deck, Pos x, Pos y) : base(deck, x, y)
+        {
+            nextButton = new ReserveView(CardView.width + 1, 0, (s, e) =>
+            {
+                this.NextCard();
+            });
+            this.Add(nextButton);
+        }
 
         override protected (int, int) GetCardPositionByDeckPosition(int deckPosition)
         {
@@ -23,6 +32,15 @@ namespace solitare
         protected override bool ShouldDisableFocusOnPushCardView()
         {
             return true;
+        }
+
+        public void NextCard()
+        {
+            _deck.NextCard();
+
+            nextButton.SetEmpty(_deck.cards.Count == 0);
+
+            this.FullRedraw();
         }
     }
 }

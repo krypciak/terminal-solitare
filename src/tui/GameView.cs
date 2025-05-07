@@ -17,7 +17,7 @@ namespace solitare
 
         private DeckViewFinal[] finalDeckViews;
         private DeckViewInitial[] initialDeckViews;
-        private DeckViewReserve reserveDecView;
+        private DeckViewReserve reserveDeckView;
 
         public static IDeckView selectedDeck = null;
         public static CardView selectedCard = null;
@@ -35,7 +35,7 @@ namespace solitare
             }
             ).ToArray();
 
-            var finalDeckY = initialDeckY + CardView.height + 7 + 3;
+            var finalDeckY = initialDeckY + CardView.height + 14 + 3;
             finalDeckViews = gameState.finalDecks.Select((deck, i) =>
             {
                 var deckView = new DeckViewFinal(deck, Pos.Absolute(3 + (i * (CardView.width + 1))), Pos.Absolute(finalDeckY));
@@ -45,10 +45,9 @@ namespace solitare
             ).ToArray();
 
 
-            {
-                reserveDecView = new DeckViewReserve(gameState.reserveDeck, Pos.Absolute(50), Pos.Absolute(finalDeckY));
-                this.Add(reserveDecView);
-            }
+            var reserveDeckViewX = 50;
+            reserveDeckView = new DeckViewReserve(gameState.reserveDeck, Pos.Absolute(reserveDeckViewX), Pos.Absolute(finalDeckY));
+            this.Add(reserveDeckView);
         }
     }
 }

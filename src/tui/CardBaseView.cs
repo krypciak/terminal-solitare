@@ -19,7 +19,7 @@ namespace solitare
 
             this.TextAlignment = Terminal.Gui.Alignment.Start;
             this.Text = $"       " + '\n' +
-                        $" empty " + '\n' +
+                        $" pusty " + '\n' +
                         $"       " + '\n' +
                         $"       " + '\n';
 

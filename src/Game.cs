@@ -13,20 +13,22 @@ namespace solitare
         public static Game? game;
 
         private GameView view;
-        private Difficulty difficulty;
         private GameState state;
+
+        public Difficulty difficulty => state.difficulty;
 
         public Game(Difficulty difficulty)
         {
             Game.game = this;
 
-            state = new GameState(123);
+            state = new GameState(123, difficulty);
 
             view = new GameView(state);
-            this.difficulty = difficulty;
 
             Application.Run(view);
         }
+
+        public List<Card> ShuffleCards(List<Card> cards) => state.ShuffleCards(cards);
 
         public void TryMoveCard(IDeckView to)
         {
