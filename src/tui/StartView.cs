@@ -8,7 +8,7 @@
 //  </auto-generated>
 // -----------------------------------------------------------------------------
 
-namespace myproj
+namespace solitare
 {
 
     public partial class StartView

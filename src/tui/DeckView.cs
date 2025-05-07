@@ -1,6 +1,6 @@
 using Terminal.Gui;
 
-namespace myproj
+namespace solitare
 {
     public interface IDeckView
     {

@@ -1,4 +1,4 @@
-namespace myproj
+namespace solitare
 {
     public class Card
     {

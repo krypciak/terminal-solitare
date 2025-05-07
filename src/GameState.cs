@@ -1,5 +1,5 @@
 
-namespace myproj
+namespace solitare
 {
     public class GameState
     {

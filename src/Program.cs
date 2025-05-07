@@ -1,4 +1,4 @@
-﻿using myproj;
+﻿using solitare;
 using Terminal.Gui;
 
 public class Program

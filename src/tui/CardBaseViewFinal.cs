@@ -1,6 +1,6 @@
 using Terminal.Gui;
 
-namespace myproj
+namespace solitare
 {
     public class CardBaseViewFinal : CardBaseView
     {

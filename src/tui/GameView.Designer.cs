@@ -8,7 +8,7 @@
 //      the code is regenerated.
 //  </auto-generated>
 // -----------------------------------------------------------------------------
-namespace myproj
+namespace solitare
 {
     using System;
     using Terminal.Gui;

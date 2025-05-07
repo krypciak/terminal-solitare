@@ -10,7 +10,7 @@
 
 using Terminal.Gui;
 
-namespace myproj
+namespace solitare
 {
     public partial class GameView
     {
