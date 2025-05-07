@@ -1,9 +1,11 @@
+using System.Text.Json.Serialization;
 using FluentResults;
 
 namespace solitare
 {
     public class DeckReserve : Deck
     {
+        [JsonInclude]
         private List<Card> hiddenCards = new List<Card>();
 
         public DeckReserve(List<Card> cards) : base(cards) { }

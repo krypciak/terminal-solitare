@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Terminal.Gui;
 
 namespace solitare
@@ -17,12 +18,13 @@ namespace solitare
 
         public int reserveShowCount;
 
-        public Game(Difficulty difficulty)
+        public Game(GameState state)
         {
             Game.game = this;
 
-            state = new GameState(123, difficulty);
-            this.reserveShowCount = difficulty == Difficulty.Easy ? 1 : 3;
+            this.state = state;
+
+            this.reserveShowCount = state.difficulty == Difficulty.Easy ? 1 : 3;
 
             view = new GameView(state);
 
@@ -52,6 +54,14 @@ namespace solitare
 
                 to.deck.PushCards(cardsToMove);
                 to.FullRedraw();
+
+                var json = JsonSerializer.Serialize(this.state, typeof(GameState), new JsonSerializerOptions
+                {
+                    // WriteIndented = true,
+                    IncludeFields = true,
+                });
+                File.WriteAllText("/home/krypek/home/Programming/repos/programming-exercises/gigathon/2025/solitare/state.json", json);
+                // MessageBox.Query(50, 70, "Question", $"{json}", "Yes");
             }
             else
             {

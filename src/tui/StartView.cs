@@ -21,7 +21,7 @@ namespace solitare
                 int index = difficultyRadio.SelectedItem;
                 Difficulty difficulty = index == 0 ? Difficulty.Easy : Difficulty.Hard;
 
-                new Game(difficulty);
+                new Game(new GameState(123, difficulty));
             };
         }
     }

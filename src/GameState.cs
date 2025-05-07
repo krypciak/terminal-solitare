@@ -1,17 +1,41 @@
 
+using System.Text.Json.Serialization;
+
 namespace solitare
 {
     public class GameState
     {
         public DeckFinal[] finalDecks { get; private set; }
+        [JsonInclude]
+
         public DeckInitial[] initialDecks { get; private set; }
+
+        [JsonInclude]
         public DeckReserve reserveDeck { get; private set; }
+
+        [JsonInclude]
         public Difficulty difficulty;
 
+        [JsonInclude]
+        private int seed;
+
+        [JsonIgnore]
         private Random random;
+
+        [JsonConstructor]
+        public GameState(int seed, Difficulty difficulty, DeckFinal[] finalDecks, DeckInitial[] initialDecks, DeckReserve reserveDeck)
+        {
+            this.seed = seed;
+            this.difficulty = difficulty;
+            this.finalDecks = finalDecks;
+            this.initialDecks = initialDecks;
+            this.reserveDeck = reserveDeck;
+            random = new Random(seed);
+        }
 
         public GameState(int seed, Difficulty difficulty)
         {
+            this.seed = seed;
             this.difficulty = difficulty;
 
             finalDecks = [

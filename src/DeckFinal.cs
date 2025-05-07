@@ -4,11 +4,7 @@ namespace solitare
 {
     public class DeckFinal : Deck
     {
-        public CardType cardType;
-
-        public DeckFinal(List<Card> cards) : base(cards)
-        {
-        }
+        public DeckFinal(List<Card> cards) : base(cards) { }
 
         public override Result CanMoveCardHere(Card card)
         {
