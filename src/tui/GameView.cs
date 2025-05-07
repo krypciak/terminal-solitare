@@ -20,6 +20,7 @@ namespace solitare
         private DeckViewReserve reserveDecView;
 
         public static IDeckView selectedDeck = null;
+        public static CardView selectedCard = null;
 
         public GameView(GameState gameState)
         {

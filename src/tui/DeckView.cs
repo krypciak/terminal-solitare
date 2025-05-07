@@ -35,11 +35,7 @@ namespace solitare
             {
                 if (GameView.selectedDeck == null)
                 {
-                    if (cardViews.TryPeek(out CardView? view))
-                    {
-                        view.SetFocus();
-                        GameView.selectedDeck = this;
-                    }
+                    if (cardViews.Count > 0) GameView.selectedDeck = this;
                 }
                 else if (Game.game != null)
                 {

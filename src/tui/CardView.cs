@@ -52,6 +52,14 @@ namespace solitare
                         $"       " + '\n' +
                         $"       " + '\n' +
                         $"{typeSymbol}  {rankSymbol}{typeSymbol} " + '\n';
+
+            this.Accepting += (s, e) =>
+            {
+                if (GameView.selectedCard == null)
+                {
+                    GameView.selectedCard = this;
+                }
+            };
         }
 
         public void SetEnabled(bool enabled)

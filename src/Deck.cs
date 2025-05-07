@@ -1,3 +1,5 @@
+using FluentResults;
+
 namespace solitare
 {
     public abstract class Deck
@@ -10,13 +12,18 @@ namespace solitare
             this.cards = cards;
         }
 
-        abstract public bool CanMoveCardHere(Card card);
+        abstract public Result CanMoveCardHere(Card card);
 
         public void PushCard(Card card)
         {
-            if (!CanMoveCardHere(card)) throw new Exception("called PushCard, but can move here!");
+            if (CanMoveCardHere(card).IsFailed) throw new Exception("called PushCard, but cant move here!");
 
             this.cards.Add(card);
+        }
+
+        public void PopCard(int at)
+        {
+            this.cards.RemoveRange(at, this.cards.Count - at);
         }
     }
 }

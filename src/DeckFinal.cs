@@ -1,3 +1,5 @@
+using FluentResults;
+
 namespace solitare
 {
     public class DeckFinal : Deck
@@ -8,16 +10,19 @@ namespace solitare
         {
         }
 
-        public override bool CanMoveCardHere(Card card)
+        public override Result CanMoveCardHere(Card card)
         {
             if (cards.Count == 0)
             {
-                return card.rank == CardRank.As;
+                if (card.rank != CardRank.As) return Result.Fail("Na ten pusty stos można połozyć tylko asa!");
+                return Result.Ok();
             }
             else
             {
                 var topCard = cards.Last();
-                return topCard.type == card.type && topCard.rank == card.rank + 1;
+                if (topCard.rank != card.rank + 1) return Result.Fail("Karta musi być jeden wyższa!");
+                if (topCard.type != card.type) return Result.Fail("Karta musi być tego samego typu!");
+                return Result.Ok();
             }
         }
     }

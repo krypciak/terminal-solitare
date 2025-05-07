@@ -10,5 +10,10 @@ namespace solitare
             this.type = type;
             this.rank = rank;
         }
+
+        public bool isCardRed()
+        {
+            return type == CardType.Karo || type == CardType.Kier;
+        }
     }
 }
