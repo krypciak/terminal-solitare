@@ -47,7 +47,8 @@ namespace solitare
             else
             {
                 var error = result.Errors[0].Message;
-                MessageBox.ErrorQuery(50, 8, "Nieprawidłowy ruch!", $"\n{error}", "Ok");
+                // MessageBox.ErrorQuery(50, 8, "Nieprawidłowy ruch!", $"\n{error}", "Ok");
+                this.view.invalidMoveLabel.Title = error;
             }
             GameView.selectedDeck?.ClearFocus();
             GameView.selectedDeck = null;

@@ -23,17 +23,10 @@ namespace solitare
 
         private Terminal.Gui.ColorScheme greenScheme;
 
-        private Terminal.Gui.Label difficultyLabel;
-
-        private Terminal.Gui.RadioGroup difficultyRadio;
-
-        private Terminal.Gui.Button startButton;
+        public Terminal.Gui.Label invalidMoveLabel;
 
         private void InitializeComponent()
         {
-            this.startButton = new Terminal.Gui.Button();
-            this.difficultyRadio = new Terminal.Gui.RadioGroup();
-            this.difficultyLabel = new Terminal.Gui.Label();
             this.greenScheme = new Terminal.Gui.ColorScheme(
                 new Terminal.Gui.Attribute(Color.Black, Color.Green),
                 new Terminal.Gui.Attribute(Color.Black, Color.Green),
@@ -53,6 +46,16 @@ namespace solitare
             this.Modal = false;
             this.TextAlignment = Terminal.Gui.Alignment.Start;
             this.Title = "Pasjans gigathon 2025 (Kliknij Esc by wyjść)";
+
+            this.invalidMoveLabel = new Terminal.Gui.Label();
+            this.invalidMoveLabel.X = Pos.Absolute(3);
+            this.invalidMoveLabel.Y = Pos.Absolute(1);
+            this.invalidMoveLabel.CanFocus = false;
+            this.invalidMoveLabel.Visible = true;
+            this.invalidMoveLabel.TextAlignment = Terminal.Gui.Alignment.Start;
+            this.invalidMoveLabel.Title = "";
+            this.invalidMoveLabel.ColorScheme = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(Color.Red, Color.White));
+            this.Add(this.invalidMoveLabel);
         }
     }
 }
