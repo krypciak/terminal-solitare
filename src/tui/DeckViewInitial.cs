@@ -7,18 +7,18 @@ namespace solitare
         public DeckViewInitial(DeckInitial deck, Pos x, Pos y) : base(deck, x, y) { }
 
 
-        override protected (int, int) GetCardPositionByDeckPosition(int deckPosition)
+        override protected (int, int) GetCardPositionByDeckPosition(Card card, int i)
         {
-            return (0, deckPosition);
+            return (0, i);
         }
-        override protected bool ShouldCardBeHidden(int deckPosition)
+        override protected bool ShouldCardBeHidden(Card card, int i)
         {
-            return deckPosition != _deck.cards.Count - 1;
+            return i != _deck.cards.Count - 1;
         }
 
-        protected override bool ShouldCardBeFocusable(int deckPosition)
+        protected override bool ShouldCardBeFocusable(Card card, int i)
         {
-            return !ShouldCardBeHidden(deckPosition);
+            return card.uncovered;
         }
 
         protected override bool ShouldDisableFocusOnPushCardView()

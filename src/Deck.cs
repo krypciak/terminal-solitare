@@ -13,16 +13,16 @@ namespace solitare
 
         abstract public Result CanMoveCardHere(Card card);
 
-        public void PushCard(Card card)
+        public void PushCards(List<Card> cards)
         {
-            if (CanMoveCardHere(card).IsFailed) throw new Exception("called PushCard, but cant move here!");
+            if (CanMoveCardHere(cards[0]).IsFailed) throw new Exception("called PushCard, but cant move here!");
 
-            cards.Add(card);
+            foreach (var card in cards) this.cards.Add(card);
         }
 
-        public void PopCard(int at)
+        public void PopCards(int count)
         {
-            cards.RemoveRange(at, this.cards.Count - at);
+            cards.RemoveRange(this.cards.Count - count, count);
             if (cards.Count > 0)
             {
                 cards.Last().uncovered = true;

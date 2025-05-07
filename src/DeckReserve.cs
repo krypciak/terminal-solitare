@@ -27,7 +27,7 @@ namespace solitare
                 for (int i = 0; i < Game.game!.reserveShowCount && cards.Count > 0; i++)
                 {
                     var topCard = cards.Last();
-                    this.PopCard(cards.Count - 1);
+                    this.PopCards(1);
                     hiddenCards.Add(topCard);
                 }
             }

@@ -37,14 +37,20 @@ namespace solitare
             if (GameView.selectedCard == null) throw new Exception("invalid call! selectedCard is null");
 
             var selCard = GameView.selectedCard.card;
+            var selDeck = GameView.selectedDeck.deck;
 
             var result = to.deck.CanMoveCardHere(selCard);
             if (result.IsSuccess)
             {
-                GameView.selectedDeck.deck.PopCard(GameView.selectedDeck.deck.cards.Count - 1);
+                var indexFrom = GameView.selectedCard.deckPosition;
+                var indexTo = selDeck.cards.Count;
+
+                var cardsToMove = selDeck.cards.GetRange(indexFrom, indexTo - indexFrom);
+
+                GameView.selectedDeck.deck.PopCards(cardsToMove.Count);
                 GameView.selectedDeck.FullRedraw();
 
-                to.deck.PushCard(selCard);
+                to.deck.PushCards(cardsToMove);
                 to.FullRedraw();
             }
             else

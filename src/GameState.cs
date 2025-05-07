@@ -15,7 +15,7 @@ namespace solitare
             this.difficulty = difficulty;
 
             finalDecks = [
-                new DeckFinal([]),
+                 new DeckFinal([]),
                  new DeckFinal([]),
                  new DeckFinal([]),
                  new DeckFinal([])
@@ -30,16 +30,16 @@ namespace solitare
             initialDecks = new DeckInitial[7];
             for (int i = 0; i < 7; i++)
             {
-                Card[] cards = new Card[i + 1];
+                List<Card> cards = new List<Card>(i + 1);
                 for (int j = 0; j < i; j++)
                 {
                     var card = allCards[allCardsI++];
                     card.uncovered = false;
-                    cards[j] = card;
+                    cards.Add(card);
                 }
-                cards[i] = allCards[allCardsI++];
+                cards.Add(allCards[allCardsI++]);
 
-                this.initialDecks[i] = new DeckInitial(cards.ToList());
+                this.initialDecks[i] = new DeckInitial(cards);
             }
 
             reserveDeck = new DeckReserve(allCards.Skip(allCardsI).ToList());
@@ -65,6 +65,14 @@ namespace solitare
             var arr = cards.ToArray();
             random.Shuffle(arr);
             return arr.ToList();
+        }
+
+        public bool IsGameFinished()
+        {
+            return finalDecks[0].cards.Count == 13
+                && finalDecks[1].cards.Count == 13
+                && finalDecks[2].cards.Count == 13
+                && finalDecks[3].cards.Count == 13;
         }
     }
 

@@ -44,9 +44,9 @@ namespace solitare
             };
         }
 
-        abstract protected (int, int) GetCardPositionByDeckPosition(int deckPosition);
-        abstract protected bool ShouldCardBeHidden(int deckPosition);
-        abstract protected bool ShouldCardBeFocusable(int deckPosition);
+        abstract protected (int, int) GetCardPositionByDeckPosition(Card card, int i);
+        abstract protected bool ShouldCardBeHidden(Card card, int i);
+        abstract protected bool ShouldCardBeFocusable(Card card, int i);
         abstract protected bool ShouldDisableFocusOnPushCardView();
 
         public void ClearFoucs()
@@ -56,8 +56,7 @@ namespace solitare
             foreach (var view in cardViews) view.ClearFocus();
         }
 
-
-        public void FullRedraw()
+        public virtual void FullRedraw()
         {
             this.Remove(baseView);
             foreach (var view in cardViews) this.Remove(view);
@@ -74,9 +73,9 @@ namespace solitare
             for (int i = 0; i < cardCount; i++)
             {
                 var card = _deck.cards[i];
-                var (x, y) = GetCardPositionByDeckPosition(i);
-                var focusable = ShouldCardBeFocusable(i);
-                var hidden = ShouldCardBeHidden(i);
+                var (x, y) = GetCardPositionByDeckPosition(card, i);
+                var focusable = ShouldCardBeFocusable(card, i);
+                var hidden = ShouldCardBeHidden(card, i);
                 var view = new CardView(card, x, y, hidden, i, focusable);
                 cardViews.Push(view);
                 this.Add(view);
