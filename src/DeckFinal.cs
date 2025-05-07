@@ -4,22 +4,20 @@ namespace solitare
     {
         public CardType cardType;
 
-        public DeckFinal(List<Card> cards, CardType cardType) : base(cards)
+        public DeckFinal(List<Card> cards) : base(cards)
         {
-            this.cardType = cardType;
         }
 
         public override bool CanMoveCardHere(Card card)
         {
-            if (card.type != this.cardType) return false;
             if (cards.Count == 0)
             {
-                return card.rank == CardRank.Krol;
+                return card.rank == CardRank.As;
             }
             else
             {
                 var topCard = cards.Last();
-                return topCard.rank == card.rank - 1;
+                return topCard.type == card.type && topCard.rank == card.rank + 1;
             }
         }
     }

@@ -10,10 +10,10 @@ namespace solitare
         public GameState(int seed)
         {
             finalDecks = [
-                new DeckFinal([], CardType.Karo),
-                 new DeckFinal([], CardType.Kier),
-                 new DeckFinal([], CardType.Pik),
-                 new DeckFinal([], CardType.Trefl)
+                new DeckFinal([]),
+                 new DeckFinal([]),
+                 new DeckFinal([]),
+                 new DeckFinal([])
             ];
 
 

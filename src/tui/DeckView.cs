@@ -7,6 +7,7 @@ namespace solitare
         Deck deck { get; }
         Stack<CardView> cardViews { get; }
 
+        void ClearFocus();
         void PushCardView(CardView cardView);
         void PopCardView();
     }
@@ -42,10 +43,9 @@ namespace solitare
                 }
                 else if (Game.game != null)
                 {
+                    GameView.selectedDeck.ClearFocus();
                     Game.game.TryMoveCard(this);
-                    if (cardViews.Count > 0) GameView.selectedDeck = this;
                 }
-
             };
         }
 
@@ -53,6 +53,13 @@ namespace solitare
         abstract protected bool ShouldCardBeHidden(int deckPosition);
         abstract protected bool ShouldDisableFocusOnPushCardView();
         abstract protected void CreateBaseView();
+
+        public void ClearFoucs()
+        {
+            base.ClearFocus();
+            baseView?.ClearFocus();
+            foreach (var view in cardViews) view.ClearFocus();
+        }
 
         private void CreateCardViews()
         {
@@ -91,6 +98,7 @@ namespace solitare
             cardView.Y = y;
             cardViews.Push(cardView);
             this.Add(cardView);
+            cardView.SetFocus();
         }
 
         public void PopCardView()

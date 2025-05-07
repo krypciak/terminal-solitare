@@ -40,11 +40,8 @@ namespace solitare
                 to.deck.PushCard(card);
                 to.PushCardView(cardView);
             }
-            else
-            {
-                GameView.selectedDeck.cardViews.Peek().ClearFocus();
-                GameView.selectedDeck = null;
-            }
+            GameView.selectedDeck?.ClearFocus();
+            GameView.selectedDeck = null;
         }
     }
 }

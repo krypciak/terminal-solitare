@@ -8,7 +8,7 @@ namespace solitare
 
         override protected (int, int) GetCardPositionByDeckPosition(int deckPosition)
         {
-            return (0, deckPosition);
+            return (0, 0);
         }
 
         protected override bool ShouldCardBeHidden(int deckPosition)
@@ -18,7 +18,7 @@ namespace solitare
 
         protected override void CreateBaseView()
         {
-            baseView = new CardBaseViewFinal(0, 0, _deck.cards.Count == 0, _deck.cardType);
+            baseView = new CardBaseView(0, 0, _deck.cards.Count == 0);
         }
 
         protected override bool ShouldDisableFocusOnPushCardView()
