@@ -17,12 +17,16 @@ namespace solitare
         {
             if (CanMoveCardHere(card).IsFailed) throw new Exception("called PushCard, but cant move here!");
 
-            this.cards.Add(card);
+            cards.Add(card);
         }
 
         public void PopCard(int at)
         {
-            this.cards.RemoveRange(at, this.cards.Count - at);
+            cards.RemoveRange(at, this.cards.Count - at);
+            if (cards.Count > 0)
+            {
+                cards.Last().uncovered = true;
+            }
         }
     }
 }

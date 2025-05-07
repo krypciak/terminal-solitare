@@ -15,20 +15,21 @@ namespace solitare
 
         public void NextCard()
         {
-            if (Game.game == null) return;
-
             if (cards.Count == 0)
             {
                 if (hiddenCards.Count == 0) return;
 
-                cards = Game.game.ShuffleCards(hiddenCards);
+                cards = Game.game!.ShuffleCards(hiddenCards);
                 hiddenCards.Clear();
             }
             else
             {
-                var topCard = cards.Last();
-                this.PopCard(cards.Count - 1);
-                hiddenCards.Add(topCard);
+                for (int i = 0; i < Game.game!.reserveShowCount && cards.Count > 0; i++)
+                {
+                    var topCard = cards.Last();
+                    this.PopCard(cards.Count - 1);
+                    hiddenCards.Add(topCard);
+                }
             }
         }
     }

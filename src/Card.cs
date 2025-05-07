@@ -4,6 +4,7 @@ namespace solitare
     {
         public CardType type { get; private set; }
         public CardRank rank { get; private set; }
+        public bool uncovered = true;
 
         public Card(CardType type, CardRank rank)
         {

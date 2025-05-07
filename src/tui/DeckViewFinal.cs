@@ -13,17 +13,18 @@ namespace solitare
 
         protected override bool ShouldCardBeHidden(int deckPosition)
         {
-            return false;
+            return deckPosition != _deck.cards.Count - 1;
         }
 
-        protected override void CreateBaseView()
+        protected override bool ShouldCardBeFocusable(int deckPosition)
         {
-            baseView = new CardBaseView(0, 0, _deck.cards.Count == 0);
+            return !ShouldCardBeHidden(deckPosition);
         }
 
         protected override bool ShouldDisableFocusOnPushCardView()
         {
             return true;
         }
+
     }
 }

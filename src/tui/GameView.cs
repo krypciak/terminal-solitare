@@ -18,6 +18,7 @@ namespace solitare
         private DeckViewFinal[] finalDeckViews;
         private DeckViewInitial[] initialDeckViews;
         private DeckViewReserve reserveDeckView;
+        private ReserveView reserveNextButton;
 
         public static IDeckView selectedDeck = null;
         public static CardView selectedCard = null;
@@ -44,10 +45,21 @@ namespace solitare
             }
             ).ToArray();
 
+            var reserveNextX = 50;
+            reserveNextButton = new ReserveView(
+                    reserveNextX,
+                    finalDeckY,
+                    (s, e) => reserveDeckView.NextCard()
+            );
+            this.Add(reserveNextButton);
 
-            var reserveDeckViewX = 50;
-            reserveDeckView = new DeckViewReserve(gameState.reserveDeck, Pos.Absolute(reserveDeckViewX), Pos.Absolute(finalDeckY));
+            reserveDeckView = new DeckViewReserve(
+                    gameState.reserveDeck,
+                    Pos.Absolute(reserveNextX + CardView.width + 1),
+                    Pos.Absolute(finalDeckY),
+                    (isEmpty) => reserveNextButton.SetEmpty(isEmpty));
             this.Add(reserveDeckView);
+
         }
     }
 }

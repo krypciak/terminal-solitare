@@ -40,11 +40,14 @@ namespace solitare
         public Card card;
         public int deckPosition;
 
+        private bool focusable;
+
         public CardView(Card card, Pos x, Pos y, bool hidden, int deckPosition, bool focusable) : base(x, y, focusable)
         {
             this.card = card;
             this.deckPosition = deckPosition;
-            SetEnabled(!hidden);
+            this.focusable = focusable;
+            this.Enabled = card.uncovered;
 
             char typeSymbol = cardTypeToSymbol[card.type];
             string rankSymbol = cardRankToSymbol[card.rank];
@@ -53,20 +56,8 @@ namespace solitare
                         $"       " + '\n' +
                         $"{typeSymbol}  {rankSymbol}{typeSymbol} " + '\n';
 
-            this.Accepting += (s, e) =>
-            {
-                if (GameView.selectedCard == null)
-                {
-                    GameView.selectedCard = this;
-                }
-            };
-        }
 
-        public void SetEnabled(bool enabled)
-        {
-            this.Enabled = enabled;
-            this.CanFocus = enabled;
-            var color = enabled ? cardTypeToColor[card.type] : Color.Gray;
+            var color = card.uncovered ? cardTypeToColor[card.type] : Color.Gray;
             var disabledColor = deckPosition % 2 == 0 ? Color.DarkGray : Color.Gray;
 
             this.ColorScheme =
@@ -77,6 +68,14 @@ namespace solitare
                         new Terminal.Gui.Attribute(disabledColor, disabledColor),
                         new Terminal.Gui.Attribute(color, Color.White)
                 );
+
+            this.Accepting += (s, e) =>
+            {
+                if (GameView.selectedCard == null)
+                {
+                    GameView.selectedCard = this;
+                }
+            };
         }
     }
 }

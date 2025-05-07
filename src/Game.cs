@@ -15,13 +15,14 @@ namespace solitare
         private GameView view;
         private GameState state;
 
-        public Difficulty difficulty => state.difficulty;
+        public int reserveShowCount;
 
         public Game(Difficulty difficulty)
         {
             Game.game = this;
 
             state = new GameState(123, difficulty);
+            this.reserveShowCount = difficulty == Difficulty.Easy ? 1 : 3;
 
             view = new GameView(state);
 
@@ -40,11 +41,11 @@ namespace solitare
             var result = to.deck.CanMoveCardHere(selCard);
             if (result.IsSuccess)
             {
-                GameView.selectedDeck.PopCardView();
                 GameView.selectedDeck.deck.PopCard(GameView.selectedDeck.deck.cards.Count - 1);
+                GameView.selectedDeck.FullRedraw();
 
                 to.deck.PushCard(selCard);
-                to.PushCardView(GameView.selectedCard);
+                to.FullRedraw();
             }
             else
             {

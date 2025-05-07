@@ -8,8 +8,7 @@ namespace solitare
         Stack<CardView> cardViews { get; }
 
         void ClearFocus();
-        void PushCardView(CardView cardView);
-        void PopCardView();
+        void FullRedraw();
     }
 
     abstract public class DeckView<T> : Terminal.Gui.View, IDeckView where T : Deck
@@ -37,18 +36,18 @@ namespace solitare
                 {
                     if (cardViews.Count > 0) GameView.selectedDeck = this;
                 }
-                else if (GameView.selectedCard != null)
+                else if (GameView.selectedCard != null && GameView.selectedDeck != this)
                 {
                     GameView.selectedDeck.ClearFocus();
-                    Game.game?.TryMoveCard(this);
+                    Game.game!.TryMoveCard(this);
                 }
             };
         }
 
         abstract protected (int, int) GetCardPositionByDeckPosition(int deckPosition);
         abstract protected bool ShouldCardBeHidden(int deckPosition);
+        abstract protected bool ShouldCardBeFocusable(int deckPosition);
         abstract protected bool ShouldDisableFocusOnPushCardView();
-        abstract protected void CreateBaseView();
 
         public void ClearFoucs()
         {
@@ -69,55 +68,20 @@ namespace solitare
         {
             var cardCount = _deck.cards.Count;
 
-            CreateBaseView();
-            if (baseView != null) { this.Add(baseView); }
+            baseView = new CardBaseView(0, 0, _deck.cards.Count == 0);
+            this.Add(baseView);
 
             for (int i = 0; i < cardCount; i++)
             {
                 var card = _deck.cards[i];
-                bool last = i == cardCount - 1;
                 var (x, y) = GetCardPositionByDeckPosition(i);
+                var focusable = ShouldCardBeFocusable(i);
                 var hidden = ShouldCardBeHidden(i);
-                var view = new CardView(card, x, y, hidden, i, last);
+                var view = new CardView(card, x, y, hidden, i, focusable);
                 cardViews.Push(view);
                 this.Add(view);
             }
 
-        }
-
-        public void PushCardView(CardView cardView)
-        {
-            if (cardViews.TryPeek(out CardView? view))
-            {
-                if (ShouldDisableFocusOnPushCardView()) view.CanFocus = false;
-            }
-            else if (baseView != null)
-            {
-                baseView.CanFocus = false;
-            }
-
-            cardView.deckPosition = cardViews.Count;
-            var (x, y) = this.GetCardPositionByDeckPosition(cardView.deckPosition);
-            cardView.X = x;
-            cardView.Y = y;
-            cardViews.Push(cardView);
-            this.Add(cardView);
-            cardView.SetFocus();
-        }
-
-        public void PopCardView()
-        {
-            var view = cardViews.Pop();
-            this.Remove(view);
-
-            if (cardViews.TryPeek(out view))
-            {
-                view.SetEnabled(true);
-            }
-            else if (baseView != null)
-            {
-                baseView.CanFocus = true;
-            }
         }
     }
 }

@@ -4,29 +4,28 @@ namespace solitare
 {
     public class DeckViewReserve : DeckView<DeckReserve>
     {
-        private ReserveView nextButton;
+        private Action<bool> updateButtonText;
 
-        public DeckViewReserve(DeckReserve deck, Pos x, Pos y) : base(deck, x, y)
+        public DeckViewReserve(DeckReserve deck, Pos x, Pos y, Action<bool> updateButtonText) : base(deck, x, y)
         {
-            nextButton = new ReserveView(CardView.width + 1, 0, (s, e) =>
-            {
-                this.NextCard();
-            });
-            this.Add(nextButton);
+            this.updateButtonText = updateButtonText;
         }
 
         override protected (int, int) GetCardPositionByDeckPosition(int deckPosition)
         {
-            return (0, 0);
+            int deckPosRev = _deck.cards.Count - deckPosition - 1;
+            if (deckPosRev >= Game.game!.reserveShowCount) return (0, 0);
+            return (deckPosRev * (CardView.width + 1), 0);
         }
         override protected bool ShouldCardBeHidden(int deckPosition)
         {
-            return deckPosition != _deck.cards.Count - 1;
+            int deckPosRev = _deck.cards.Count - deckPosition - 1;
+            return deckPosRev >= Game.game!.reserveShowCount;
         }
 
-        protected override void CreateBaseView()
+        protected override bool ShouldCardBeFocusable(int deckPosition)
         {
-            baseView = new CardBaseView(0, 0, _deck.cards.Count == 0);
+            return deckPosition == _deck.cards.Count - 1;
         }
 
         protected override bool ShouldDisableFocusOnPushCardView()
@@ -38,7 +37,7 @@ namespace solitare
         {
             _deck.NextCard();
 
-            nextButton.SetEmpty(_deck.cards.Count == 0);
+            updateButtonText(_deck.cards.Count == 0);
 
             this.FullRedraw();
         }

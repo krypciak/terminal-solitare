@@ -33,7 +33,9 @@ namespace solitare
                 Card[] cards = new Card[i + 1];
                 for (int j = 0; j < i; j++)
                 {
-                    cards[j] = allCards[allCardsI++];
+                    var card = allCards[allCardsI++];
+                    card.uncovered = false;
+                    cards[j] = card;
                 }
                 cards[i] = allCards[allCardsI++];
 
