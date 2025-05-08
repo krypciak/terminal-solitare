@@ -46,6 +46,7 @@ namespace solitare
                 GameView.selectedDeck.FullRedraw();
                 to.FullRedraw();
                 view.UpdateUndoShortcutText(state.stateHistory.Count);
+                view.UpdateMoveCountText(state.moveCount);
             }
             else
             {
@@ -69,6 +70,7 @@ namespace solitare
             {
                 view.FullRedraw(this.state);
                 view.UpdateUndoShortcutText(state.stateHistory.Count);
+                view.UpdateMoveCountText(state.moveCount);
             }
 
         }

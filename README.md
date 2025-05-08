@@ -62,7 +62,7 @@ Talia kart
 
 ### Cofanie ruchów:
 
-- [ ] Gra powinna umożliwiać cofnięcie 3 ostatnich ruchów gracza.
+- [x] Gra powinna umożliwiać cofnięcie 3 ostatnich ruchów gracza.
 
 ### Zakończenie gry
 

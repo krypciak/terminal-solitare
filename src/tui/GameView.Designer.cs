@@ -8,10 +8,11 @@ namespace solitare
 
         private Terminal.Gui.ColorScheme greenScheme;
 
-        public Terminal.Gui.Label invalidMoveLabel;
+        private Terminal.Gui.Label invalidMoveLabel;
 
         private Terminal.Gui.MenuBarv2 menu;
         private Terminal.Gui.Shortcut undoShortcut;
+        private Terminal.Gui.Label moveCount;
 
         private void InitializeComponent()
         {
@@ -58,6 +59,7 @@ namespace solitare
                 HighlightStyle = HighlightStyle.Hover,
                 Action = () => Application.RequestStop()
             });
+
             menu.Add(new Label { Title = " | ", CanFocus = false, });
 
             undoShortcut = new Shortcut
@@ -69,6 +71,11 @@ namespace solitare
             UpdateUndoShortcutText(0);
             menu.Add(undoShortcut);
 
+            menu.Add(new Label { Title = " | ", CanFocus = false, });
+
+            moveCount = new Label();
+            UpdateMoveCountText(0);
+            menu.Add(moveCount);
 
             this.Add(menu);
         }
@@ -76,6 +83,11 @@ namespace solitare
         public void UpdateUndoShortcutText(int moves)
         {
             undoShortcut.Title = $"Cofnij ruch ({moves}/{GameState.historySize})";
+        }
+
+        public void UpdateMoveCountText(int moveCount)
+        {
+            this.moveCount.Title = $"Liczba ruchów: {moveCount}";
         }
 
         public async void SetInvalidMoveMessage(string error)
