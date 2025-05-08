@@ -16,8 +16,8 @@ namespace solitare
 
         private DeckViewFinal[] finalDeckViews;
         private DeckViewInitial[] initialDeckViews;
-        private DeckViewReserve reserveDeckView;
-        private ReserveView reserveNextButton;
+        public DeckViewReserve reserveDeckView;
+        public ReserveView reserveNextButton;
 
         public static IDeckView selectedDeck = null;
         public static CardView selectedCard = null;
@@ -92,11 +92,7 @@ namespace solitare
             ).ToArray();
 
             var reserveNextX = 50;
-            reserveNextButton = new ReserveView(
-                    reserveNextX,
-                    finalDeckY,
-                    (s, e) => reserveDeckView.NextCard()
-            );
+            reserveNextButton = new ReserveView(reserveNextX, finalDeckY);
             this.Add(reserveNextButton);
             AttachShortcutToView(reserveNextButton, Key.G, () => { });
 

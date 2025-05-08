@@ -32,6 +32,13 @@ namespace solitare
 
         public List<Card> ShuffleCards(List<Card> cards) => state.ShuffleCards(cards);
 
+
+        private void UpdateTopBarText()
+        {
+            view.UpdateUndoShortcutText(state.stateHistory.Count);
+            view.UpdateMoveCountText(state.moveCount);
+        }
+
         public void TryMoveCard(IDeckView to)
         {
             if (GameView.selectedDeck == null) throw new Exception("invalid call! selectedDeck is null");
@@ -45,8 +52,7 @@ namespace solitare
             {
                 GameView.selectedDeck.FullRedraw();
                 to.FullRedraw();
-                view.UpdateUndoShortcutText(state.stateHistory.Count);
-                view.UpdateMoveCountText(state.moveCount);
+                UpdateTopBarText();
             }
             else
             {
@@ -65,13 +71,19 @@ namespace solitare
             }
         }
 
+        public void NextReserveCard()
+        {
+            state.CommitMove();
+            UpdateTopBarText();
+            view.reserveDeckView.NextCard();
+        }
+
         public void UndoMove()
         {
             if (this.state.UndoMove())
             {
+                UpdateTopBarText();
                 view.FullRedraw(this.state);
-                view.UpdateUndoShortcutText(state.stateHistory.Count);
-                view.UpdateMoveCountText(state.moveCount);
             }
 
         }

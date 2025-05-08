@@ -4,7 +4,7 @@ namespace solitare
 {
     public class ReserveView : CardBaseView
     {
-        public ReserveView(Pos x, Pos y, EventHandler<CommandEventArgs> onClick) : base(x, y, true)
+        public ReserveView(Pos x, Pos y) : base(x, y, true)
         {
             SetEmpty(false);
             var color = Color.White;
@@ -18,7 +18,7 @@ namespace solitare
                         new Terminal.Gui.Attribute(color, Color.Gray)
                 );
 
-            this.Accepting += onClick;
+            this.Accepting += (s, e) => Game.game!.NextReserveCard();
         }
 
         public void SetEmpty(bool isEmpty)

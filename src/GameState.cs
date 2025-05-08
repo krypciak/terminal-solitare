@@ -115,6 +115,14 @@ namespace solitare
                 && finalDecks[3].cards.Count == 13;
         }
 
+
+        public void CommitMove()
+        {
+            if (this.stateHistory.Count == GameState.historySize) this.stateHistory.RemoveAt(0);
+            this.stateHistory.Add(this.SerializeToJSON());
+            moveCount++;
+        }
+
         public Result TryMoveCard(Card selCard, Deck selDeck, Deck toDeck)
         {
             var result = toDeck.CanMoveCardHere(selCard);
@@ -126,16 +134,10 @@ namespace solitare
             var cardsToMove = selDeck.cards.GetRange(indexFrom, indexTo - indexFrom);
             if (cardsToMove.Count == 0) return Result.Fail("");
 
-            if (this.stateHistory.Count == GameState.historySize)
-            {
-                this.stateHistory.RemoveAt(0);
-            }
-            this.stateHistory.Add(this.SerializeToJSON());
+            CommitMove();
 
             selDeck.PopCards(cardsToMove.Count);
             toDeck.PushCards(cardsToMove);
-
-            moveCount++;
 
             return result;
         }
