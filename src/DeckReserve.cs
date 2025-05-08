@@ -21,7 +21,13 @@ namespace solitare
             {
                 if (hiddenCards.Count == 0) return;
 
-                cards = Game.game!.ShuffleCards(hiddenCards);
+                if (Game.game!.reserveShowCount == 1)
+                {
+                    cards = Game.game!.ShuffleCards(hiddenCards);
+                } else {
+                    cards = new List<Card>(hiddenCards);
+                    cards.Reverse();
+                }
                 hiddenCards.Clear();
             }
             else

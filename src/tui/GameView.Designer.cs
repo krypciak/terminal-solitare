@@ -18,7 +18,7 @@ namespace solitare
         {
             this.greenScheme = new Terminal.Gui.ColorScheme(
                 new Terminal.Gui.Attribute(Color.Black, Color.Green),
-                new Terminal.Gui.Attribute(Color.Black, Color.Green),
+                new Terminal.Gui.Attribute(Color.Black, Color.BrightGreen),
                 new Terminal.Gui.Attribute(Color.Black, Color.Green),
                 new Terminal.Gui.Attribute(Color.Black, Color.Green),
                 new Terminal.Gui.Attribute(Color.Black, Color.Green)

@@ -8,6 +8,9 @@
 //  </auto-generated>
 // -----------------------------------------------------------------------------
 
+
+using Terminal.Gui;
+
 namespace solitare
 {
 
@@ -16,12 +19,62 @@ namespace solitare
         public StartView()
         {
             InitializeComponent();
+
+            seedTextField.ColorScheme = new Terminal.Gui.ColorScheme(
+                new Terminal.Gui.Attribute(Color.Black, Color.Green),
+                new Terminal.Gui.Attribute(Color.Black, Color.BrightGreen),
+                new Terminal.Gui.Attribute(Color.Black, Color.Green),
+                new Terminal.Gui.Attribute(Color.Black, Color.Green),
+                new Terminal.Gui.Attribute(Color.Black, Color.Green)
+            );
+            seedTextField.Provider = new Terminal.Gui.TextValidateProviders.TextRegexProvider("")
+            {
+                Pattern = "^[0-9]+$",
+                Text = "123"
+            };
             startButton.Accepting += (s, e) =>
             {
+                if (!seedTextField.IsValid) return;
+
                 int index = difficultyRadio.SelectedItem;
                 Difficulty difficulty = index == 0 ? Difficulty.Easy : Difficulty.Hard;
 
-                new Game(new GameState(123, difficulty));
+                var seed = int.Parse(seedTextField.Text);
+
+                if (false)
+                {
+                    DeckFinal[] finalDecks = new DeckFinal[4];
+                    for (CardType type = CardType.Kier; type <= CardType.Trefl; type++)
+                    {
+                        List<Card> cards = new List<Card>();
+                        for (CardRank rank = CardRank.As; rank <= CardRank.Krol; rank++)
+                        {
+                            cards.Add(new Card(type, rank));
+                        }
+                        finalDecks[(int)type] = new DeckFinal(cards);
+                    }
+
+                    DeckInitial[] initialDecks = new DeckInitial[7];
+                    for (int i = 0; i < 7; i++)
+                    {
+                        initialDecks[i] = new DeckInitial([]);
+                    }
+
+                    var state = new GameState(seed, Difficulty.Easy,
+                        finalDecks,
+                        initialDecks,
+                        new DeckReserve([]),
+                        2137
+                    );
+                    new Game(state);
+                }
+                else
+                {
+                    var state = new GameState(seed, difficulty);
+                    new Game(state);
+                }
+
+
             };
         }
     }

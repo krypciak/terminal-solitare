@@ -60,7 +60,8 @@ namespace solitare
 
             if (state.IsGameFinished())
             {
-                MessageBox.Query(50, 7, "You won!", $"Number of moves: {state.moveCount}", "Back to main menu");
+                MessageBox.Query(50, 7, "Wygrałeś!", $"Liczna ruchów: {state.moveCount}", "Wyjdź do menu głównego");
+                Application.RequestStop();
             }
         }
 

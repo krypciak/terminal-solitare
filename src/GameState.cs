@@ -164,7 +164,7 @@ namespace solitare
             });
         }
 
-        public static GameState FromJSON(string json)
+        private static GameState FromJSON(string json)
         {
             return JsonSerializer.Deserialize<GameState>(json)!;
         }
