@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Terminal.Gui;
 
 namespace solitare
@@ -41,37 +40,37 @@ namespace solitare
             var selCard = GameView.selectedCard.card;
             var selDeck = GameView.selectedDeck.deck;
 
-            var result = to.deck.CanMoveCardHere(selCard);
+            var result = state.TryMoveCard(selCard, selDeck, to.deck);
             if (result.IsSuccess)
             {
-                var indexFrom = GameView.selectedCard.deckPosition;
-                var indexTo = selDeck.cards.Count;
-
-                var cardsToMove = selDeck.cards.GetRange(indexFrom, indexTo - indexFrom);
-
-                GameView.selectedDeck.deck.PopCards(cardsToMove.Count);
                 GameView.selectedDeck.FullRedraw();
-
-                to.deck.PushCards(cardsToMove);
                 to.FullRedraw();
-
-                var json = JsonSerializer.Serialize(this.state, typeof(GameState), new JsonSerializerOptions
-                {
-                    // WriteIndented = true,
-                    IncludeFields = true,
-                });
-                File.WriteAllText("/home/krypek/home/Programming/repos/programming-exercises/gigathon/2025/solitare/state.json", json);
-                // MessageBox.Query(50, 70, "Question", $"{json}", "Yes");
+                view.UpdateUndoShortcutText(state.stateHistory.Count);
             }
             else
             {
                 var error = result.Errors[0].Message;
-                // MessageBox.ErrorQuery(50, 8, "Nieprawidłowy ruch!", $"\n{error}", "Ok");
-                this.view.invalidMoveLabel.Title = error;
+                this.view.SetInvalidMoveMessage(error);
             }
+
             GameView.selectedDeck?.ClearFocus();
             GameView.selectedDeck = null;
             GameView.selectedCard = null;
+
+            if (state.IsGameFinished())
+            {
+                MessageBox.Query(50, 7, "You won!", $"Number of moves: {state.moveCount}", "Back to main menu");
+            }
+        }
+
+        public void UndoMove()
+        {
+            if (this.state.UndoMove())
+            {
+                view.FullRedraw(this.state);
+                view.UpdateUndoShortcutText(state.stateHistory.Count);
+            }
+
         }
     }
 }

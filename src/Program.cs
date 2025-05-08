@@ -12,9 +12,9 @@ public class Program
         {
             // new Game(Difficulty.Easy, 123);
 
-            var json = File.ReadAllText("/home/krypek/home/Programming/repos/programming-exercises/gigathon/2025/solitare/state.json");
-            var state = JsonSerializer.Deserialize<GameState>(json)!;
-            new Game(state);
+            // var json = File.ReadAllText("/home/krypek/home/Programming/repos/programming-exercises/gigathon/2025/solitare/state.json");
+            // var state = GameState.FromJSON(json);
+            new Game(new GameState(123, Difficulty.Easy));
             // Application.Run(new StartView());
         }
         finally

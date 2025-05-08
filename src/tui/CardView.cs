@@ -63,7 +63,7 @@ namespace solitare
             this.ColorScheme =
                 new Terminal.Gui.ColorScheme(
                         new Terminal.Gui.Attribute(color, Color.White),
-                        new Terminal.Gui.Attribute(Color.Red, Color.BrightYellow),
+                        new Terminal.Gui.Attribute(color, Color.BrightYellow),
                         new Terminal.Gui.Attribute(color, Color.White),
                         new Terminal.Gui.Attribute(disabledColor, disabledColor),
                         new Terminal.Gui.Attribute(color, Color.White)
