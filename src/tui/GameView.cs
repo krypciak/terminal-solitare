@@ -60,23 +60,12 @@ namespace solitare
             FullRedraw(gameState);
         }
 
-        public async void SetInvalidMoveMessage(string error)
-        {
-            this.invalidMoveLabel.Title = error;
-            var currentInvalidMoveCount = ++invalidMoveCount;
-            await Task.Delay(5000);
-            if (currentInvalidMoveCount == invalidMoveCount)
-            {
-                this.invalidMoveLabel.Title = "";
-            }
-        }
-
         public void FullRedraw(GameState gameState)
         {
             this.RemoveAll();
             InitializeComponent();
 
-            var initialDeckY = 3;
+            var initialDeckY = 4;
             initialDeckViews = gameState.initialDecks.Select((deck, i) =>
             {
                 var deckView = new DeckViewInitial(deck, Pos.Absolute(3 + (i * (CardView.width + 1))), Pos.Absolute(initialDeckY));

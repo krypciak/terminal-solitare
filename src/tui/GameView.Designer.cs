@@ -33,10 +33,10 @@ namespace solitare
             this.ShadowStyle = Terminal.Gui.ShadowStyle.None;
             this.Modal = false;
             this.TextAlignment = Terminal.Gui.Alignment.Start;
-            this.Title = "Pasjans gigathon 2025 (Kliknij Esc by wyjść)";
+            this.Title = "Pasjans gigathon 2025";
 
             this.invalidMoveLabel = new Terminal.Gui.Label();
-            this.invalidMoveLabel.X = Pos.Absolute(3);
+            this.invalidMoveLabel.X = Pos.Absolute(0);
             this.invalidMoveLabel.Y = Pos.Absolute(1);
             this.invalidMoveLabel.CanFocus = false;
             this.invalidMoveLabel.Visible = true;
@@ -45,25 +45,48 @@ namespace solitare
             this.invalidMoveLabel.ColorScheme = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(Color.Red, Color.White));
             this.Add(this.invalidMoveLabel);
 
-            menu = new Terminal.Gui.MenuBarv2();
+            menu = new Terminal.Gui.MenuBarv2
+            {
+                ColorScheme = new Terminal.Gui.ColorScheme(
+                    new Terminal.Gui.Attribute(Color.Black, Color.BrightGreen)
+                )
+            };
+            menu.Add(new Shortcut()
+            {
+                Title = "Wyjdź do menu głównego",
+                Key = Key.Esc,
+                HighlightStyle = HighlightStyle.Hover,
+                Action = () => Application.RequestStop()
+            });
+            menu.Add(new Label { Title = " | ", CanFocus = false, });
+
             undoShortcut = new Shortcut
             {
                 Key = Key.Z,
                 HighlightStyle = HighlightStyle.Hover,
-                Action = () =>
-                {
-                    Game.game.UndoMove();
-                }
+                Action = () => Game.game.UndoMove()
             };
             UpdateUndoShortcutText(0);
-
             menu.Add(undoShortcut);
+
+
             this.Add(menu);
         }
 
         public void UpdateUndoShortcutText(int moves)
         {
             undoShortcut.Title = $"Cofnij ruch ({moves}/{GameState.historySize})";
+        }
+
+        public async void SetInvalidMoveMessage(string error)
+        {
+            this.invalidMoveLabel.Title = $" Zły ruch: {error}";
+            var currentInvalidMoveCount = ++invalidMoveCount;
+            await Task.Delay(5000);
+            if (currentInvalidMoveCount == invalidMoveCount)
+            {
+                this.invalidMoveLabel.Title = "";
+            }
         }
     }
 }
