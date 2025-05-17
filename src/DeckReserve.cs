@@ -21,18 +21,22 @@ namespace solitare
             {
                 if (hiddenCards.Count == 0) return;
 
-                if (Game.game!.reserveShowCount == 1)
+                if (Game.instance!.reserveShowCount == 1)
                 {
-                    cards = Game.game!.ShuffleCards(hiddenCards);
-                } else {
-                    cards = new List<Card>(hiddenCards);
+                    cards.Clear();
+                    cards.AddRange(Game.instance!.ShuffleCards(hiddenCards));
+                }
+                else
+                {
+                    cards.Clear();
+                    cards.AddRange(new List<Card>(hiddenCards));
                     cards.Reverse();
                 }
                 hiddenCards.Clear();
             }
             else
             {
-                for (int i = 0; i < Game.game!.reserveShowCount && cards.Count > 0; i++)
+                for (int i = 0; i < Game.instance!.reserveShowCount && cards.Count > 0; i++)
                 {
                     var topCard = cards.Last();
                     this.PopCards(1);

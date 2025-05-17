@@ -6,25 +6,25 @@ namespace solitare
     public abstract class Deck
     {
         [JsonInclude]
-        public List<Card> cards;
+        public List<Card> cards { get; }
 
         public Deck(List<Card> cards)
         {
             this.cards = cards;
         }
 
-        abstract public Result CanMoveCardHere(Card card);
+        public abstract Result CanMoveCardHere(Card card);
 
         public void PushCards(List<Card> cards)
         {
             if (CanMoveCardHere(cards[0]).IsFailed) throw new Exception("called PushCard, but cant move here!");
 
-            foreach (var card in cards) this.cards.Add(card);
+            cards.AddRange(cards);
         }
 
         public void PopCards(int count)
         {
-            cards.RemoveRange(this.cards.Count - count, count);
+            cards.RemoveRange(cards.Count - count, count);
             if (cards.Count > 0)
             {
                 cards.Last().uncovered = true;

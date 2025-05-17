@@ -11,7 +11,7 @@ namespace solitare
         void FullRedraw();
     }
 
-    abstract public class DeckView<T> : Terminal.Gui.View, IDeckView where T : Deck
+    public abstract class DeckView<T> : Terminal.Gui.View, IDeckView where T : Deck
     {
         protected T _deck;
         public Deck deck => _deck;
@@ -39,7 +39,7 @@ namespace solitare
                 else if (GameView.selectedCard != null && GameView.selectedDeck != this)
                 {
                     GameView.selectedDeck.ClearFocus();
-                    Game.game!.TryMoveCard(this);
+                    Game.instance!.TryMoveCard(this);
                 }
             };
         }

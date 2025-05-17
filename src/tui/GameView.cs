@@ -13,7 +13,6 @@ namespace solitare
 {
     public partial class GameView
     {
-
         private DeckViewFinal[] finalDeckViews;
         private DeckViewInitial[] initialDeckViews;
         public DeckViewReserve reserveDeckView;
@@ -68,7 +67,7 @@ namespace solitare
             var initialDeckY = 4;
             initialDeckViews = gameState.initialDecks.Select((deck, i) =>
             {
-                var deckView = new DeckViewInitial(deck, Pos.Absolute(3 + (i * (CardView.width + 1))), Pos.Absolute(initialDeckY));
+                var deckView = new DeckViewInitial(deck, Pos.Absolute(3 + (i * (CardView.WIDTH + 1))), Pos.Absolute(initialDeckY));
                 this.Add(deckView);
 
                 Key[] keyMap = { Key.Q, Key.W, Key.E, Key.R, Key.T, Key.Y, Key.U, Key.I, };
@@ -78,10 +77,10 @@ namespace solitare
             }
             ).ToArray();
 
-            var finalDeckY = initialDeckY + CardView.height + 14 + 3;
+            var finalDeckY = initialDeckY + CardView.HEIGHT + 14 + 3;
             finalDeckViews = gameState.finalDecks.Select((deck, i) =>
             {
-                var deckView = new DeckViewFinal(deck, Pos.Absolute(3 + (i * (CardView.width + 1))), Pos.Absolute(finalDeckY));
+                var deckView = new DeckViewFinal(deck, Pos.Absolute(3 + (i * (CardView.WIDTH + 1))), Pos.Absolute(finalDeckY));
                 this.Add(deckView);
 
                 Key[] keyMap = { Key.A, Key.S, Key.D, Key.F, };
@@ -99,7 +98,7 @@ namespace solitare
 
             reserveDeckView = new DeckViewReserve(
                     gameState.reserveDeck,
-                    Pos.Absolute(reserveNextX + CardView.width + 1),
+                    Pos.Absolute(reserveNextX + CardView.WIDTH + 1),
                     Pos.Absolute(finalDeckY),
                     (isEmpty) => reserveNextButton.SetEmpty(isEmpty));
             this.Add(reserveDeckView);

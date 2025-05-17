@@ -22,7 +22,7 @@ namespace solitare
         public DeckReserve reserveDeck { get; private set; }
 
         [JsonInclude]
-        public Difficulty difficulty;
+        public Difficulty difficulty { get; private set; }
 
         [JsonInclude]
         private int seed;
@@ -87,17 +87,17 @@ namespace solitare
 
         private static List<Card> GetFullCardList()
         {
-            Card[] cards = new Card[52];
+            List<Card> cards = new(52);
 
-            var i = 0;
-            for (CardType type = CardType.Kier; type <= CardType.Trefl; type++)
+            foreach (CardType type in Enum.GetValues(typeof(CardType)))
             {
-                for (CardRank rank = CardRank.As; rank <= CardRank.Krol; rank++)
+                foreach (CardRank rank in Enum.GetValues(typeof(CardRank)))
                 {
-                    cards[i++] = new Card(type, rank);
+                    cards.Add(new Card(type, rank));
                 }
             }
-            return cards.ToList();
+
+            return cards;
         }
 
         public List<Card> ShuffleCards(List<Card> cards)

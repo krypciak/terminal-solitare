@@ -17,7 +17,7 @@ namespace solitare
             {
                 var topCard = cards.Last();
                 if (topCard.rank != card.rank + 1) return Result.Fail($"Karta musi być jeden niższa!");
-                if (topCard.isCardRed() == card.isCardRed()) return Result.Fail("Karta musi być innego koloru!");
+                if (topCard.type.IsRed() == card.type.IsRed()) return Result.Fail("Karta musi być innego koloru!");
                 return Result.Ok();
             }
         }

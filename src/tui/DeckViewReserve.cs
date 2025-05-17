@@ -14,14 +14,14 @@ namespace solitare
         override protected (int, int) GetCardPositionByDeckPosition(Card card, int i)
         {
             int deckPosRev = _deck.cards.Count - i - 1;
-            if (deckPosRev >= Game.game!.reserveShowCount) return (0, 0);
-            return (deckPosRev * (CardView.width + 1), 0);
+            if (deckPosRev >= Game.instance!.reserveShowCount) return (0, 0);
+            return (deckPosRev * (CardView.WIDTH + 1), 0);
         }
 
         override protected bool ShouldCardBeHidden(Card card, int i)
         {
             int deckPosRev = _deck.cards.Count - i - 1;
-            return deckPosRev >= Game.game!.reserveShowCount;
+            return deckPosRev >= Game.instance!.reserveShowCount;
         }
 
         protected override bool ShouldCardBeFocusable(Card card, int i)

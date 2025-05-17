@@ -10,7 +10,7 @@ namespace solitare
 
     public class Game
     {
-        public static Game? game;
+        public static Game? instance;
 
         private GameView view;
         private GameState state;
@@ -19,7 +19,7 @@ namespace solitare
 
         public Game(GameState state)
         {
-            Game.game = this;
+            Game.instance = this;
 
             this.state = state;
 

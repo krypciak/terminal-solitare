@@ -4,21 +4,21 @@ namespace solitare
 {
     public class CardView : CardBaseView
     {
-        public static Dictionary<CardType, Color> cardTypeToColor = new Dictionary<CardType, Color>() {
+        public static Dictionary<CardType, Color> cardTypeToColor = new()  {
             { CardType.Karo, Color.Red},
             { CardType.Kier, Color.Red},
             { CardType.Pik, Color.Black},
             { CardType.Trefl, Color.Black},
         };
 
-        public static Dictionary<CardType, char> cardTypeToSymbol = new Dictionary<CardType, char>() {
+        public static Dictionary<CardType, char> cardTypeToSymbol = new() {
             { CardType.Karo, '♦'},
             { CardType.Kier, '♥'},
             { CardType.Pik, '♠'},
             { CardType.Trefl, '♣'},
         };
 
-        public static Dictionary<CardRank, string> cardRankToSymbol = new Dictionary<CardRank, string>() {
+        public static Dictionary<CardRank, string> cardRankToSymbol = new() {
             { CardRank.Krol, "K " },
             { CardRank.Dama, "Q " },
             { CardRank.Walet, "J " },
@@ -34,19 +34,13 @@ namespace solitare
             { CardRank.As, "A " },
         };
 
-        public static int width = 7;
-        public static int height = 4;
-
         public Card card;
         public int deckPosition;
-
-        private bool focusable;
 
         public CardView(Card card, Pos x, Pos y, bool hidden, int deckPosition, bool focusable) : base(x, y, focusable)
         {
             this.card = card;
             this.deckPosition = deckPosition;
-            this.focusable = focusable;
             this.Enabled = card.uncovered;
 
             char typeSymbol = cardTypeToSymbol[card.type];

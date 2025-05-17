@@ -66,7 +66,7 @@ namespace solitare
             {
                 Key = Key.Z,
                 HighlightStyle = HighlightStyle.Hover,
-                Action = () => Game.game.UndoMove()
+                Action = () => Game.instance.UndoMove()
             };
             UpdateUndoShortcutText(0);
             menu.Add(undoShortcut);

@@ -5,6 +5,9 @@ namespace solitare
 {
     public class CardBaseView : Button
     {
+        public const int WIDTH = 7;
+        public const int HEIGHT = 4;
+
         public CardBaseView(Pos x, Pos y, bool focusable)
         {
             this.X = x;

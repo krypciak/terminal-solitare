@@ -18,7 +18,7 @@ namespace solitare
                         new Terminal.Gui.Attribute(color, Color.Gray)
                 );
 
-            this.Accepting += (s, e) => Game.game!.NextReserveCard();
+            this.Accepting += (s, e) => Game.instance!.NextReserveCard();
         }
 
         public void SetEmpty(bool isEmpty)

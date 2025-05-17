@@ -5,9 +5,9 @@ namespace solitare
     public class Card
     {
         [JsonInclude]
-        public CardType type { get; private set; }
+        public CardType type { get; }
         [JsonInclude]
-        public CardRank rank { get; private set; }
+        public CardRank rank { get; }
         [JsonInclude]
         public bool uncovered = true;
 
@@ -15,11 +15,6 @@ namespace solitare
         {
             this.type = type;
             this.rank = rank;
-        }
-
-        public bool isCardRed()
-        {
-            return type == CardType.Karo || type == CardType.Kier;
         }
     }
 }

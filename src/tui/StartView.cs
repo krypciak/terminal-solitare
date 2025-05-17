@@ -41,39 +41,8 @@ namespace solitare
 
                 var seed = int.Parse(seedTextField.Text);
 
-                if (false)
-                {
-                    DeckFinal[] finalDecks = new DeckFinal[4];
-                    for (CardType type = CardType.Kier; type <= CardType.Trefl; type++)
-                    {
-                        List<Card> cards = new List<Card>();
-                        for (CardRank rank = CardRank.As; rank <= CardRank.Krol; rank++)
-                        {
-                            cards.Add(new Card(type, rank));
-                        }
-                        finalDecks[(int)type] = new DeckFinal(cards);
-                    }
-
-                    DeckInitial[] initialDecks = new DeckInitial[7];
-                    for (int i = 0; i < 7; i++)
-                    {
-                        initialDecks[i] = new DeckInitial([]);
-                    }
-
-                    var state = new GameState(seed, Difficulty.Easy,
-                        finalDecks,
-                        initialDecks,
-                        new DeckReserve([]),
-                        2137
-                    );
-                    new Game(state);
-                }
-                else
-                {
-                    var state = new GameState(seed, difficulty);
-                    new Game(state);
-                }
-
+                var state = new GameState(seed, difficulty);
+                new Game(state);
 
             };
         }
