@@ -66,7 +66,11 @@ namespace solitare
             {
                 Key = Key.Z,
                 HighlightStyle = HighlightStyle.Hover,
-                Action = () => Game.instance.UndoMove()
+                Action = () =>
+                {
+                    game.UndoMove();
+                    FullRedraw();
+                }
             };
             UpdateUndoShortcutText(0);
             menu.Add(undoShortcut);
@@ -82,7 +86,7 @@ namespace solitare
 
         public void UpdateUndoShortcutText(int moves)
         {
-            undoShortcut.Title = $"Cofnij ruch ({moves}/{GameState.historySize})";
+            undoShortcut.Title = $"Cofnij ruch ({moves}/{Game.MAX_HISTORY_SIZE})";
         }
 
         public void UpdateMoveCountText(int moveCount)

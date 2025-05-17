@@ -1,91 +1,129 @@
-using Terminal.Gui;
+using FluentResults;
 
 namespace solitare
 {
-    public enum Difficulty
-    {
-        Easy,
-        Hard
-    }
-
     public class Game
     {
-        public static Game? instance;
+        public const int MAX_HISTORY_SIZE = 3;
 
-        private GameView view;
-        private GameState state;
+        public GameState state { get; private set; }
+        private LinkedList<string> stateHistory = [];
 
-        public int reserveShowCount;
+        public int GetStateHistoryLength() => stateHistory.Count;
+        public int reserveShowCount { get; }
 
-        public Game(GameState state)
+        // after card is moved
+        public event Action<Deck>? OnDeckChange;
+
+        public Game(int seed, Difficulty difficulty)
         {
-            Game.instance = this;
+            reserveShowCount = difficulty == Difficulty.Easy ? 1 : 3;
 
-            this.state = state;
+            DeckFinal[] finalDecks = [
+                 new DeckFinal([]),
+                 new DeckFinal([]),
+                 new DeckFinal([]),
+                 new DeckFinal([])
+            ];
 
-            this.reserveShowCount = state.difficulty == Difficulty.Easy ? 1 : 3;
+            var allCards = GetFullCardList();
 
-            view = new GameView(state);
+            allCards = ShuffleCards(allCards, new Random(seed));
 
-            Application.Run(view);
+            var allCardsI = 0;
+            var initialDecks = new DeckInitial[7];
+            for (int i = 0; i < 7; i++)
+            {
+                List<Card> cards = new List<Card>(i + 1);
+                for (int j = 0; j < i; j++)
+                {
+                    var card = allCards[allCardsI++];
+                    card.uncovered = false;
+                    cards.Add(card);
+                }
+                cards.Add(allCards[allCardsI++]);
+
+                initialDecks[i] = new DeckInitial(cards);
+            }
+
+            var reserveDeck = new DeckReserve(allCards.Skip(allCardsI).ToList(), reserveShowCount);
+
+            state = new GameState(finalDecks, initialDecks, reserveDeck, 0);
         }
 
-        public List<Card> ShuffleCards(List<Card> cards) => state.ShuffleCards(cards);
-
-
-        private void UpdateTopBarText()
+        public bool IsGameFinished()
         {
-            view.UpdateUndoShortcutText(state.stateHistory.Count);
-            view.UpdateMoveCountText(state.moveCount);
+            return state.finalDecks[0].cards.Count == 13
+                && state.finalDecks[1].cards.Count == 13
+                && state.finalDecks[2].cards.Count == 13
+                && state.finalDecks[3].cards.Count == 13;
         }
 
-        public void TryMoveCard(IDeckView to)
+        public Result TryMoveCard(Deck fromDeck, Deck toDeck, Card card)
         {
-            if (GameView.selectedDeck == null) throw new Exception("invalid call! selectedDeck is null");
-            if (GameView.selectedCard == null) throw new Exception("invalid call! selectedCard is null");
+            var result = toDeck.CanMoveCardHere(card);
+            if (result.IsFailed) return result;
 
-            var selCard = GameView.selectedCard.card;
-            var selDeck = GameView.selectedDeck.deck;
+            var fromDeckCardIndex = fromDeck.cards.IndexOf(card);
+            var cardsToMove = fromDeck.cards.GetRange(fromDeckCardIndex, fromDeck.cards.Count - fromDeckCardIndex);
+            if (cardsToMove.Count == 0) return Result.Fail("");
 
-            var result = state.TryMoveCard(selCard, selDeck, to.deck);
-            if (result.IsSuccess)
-            {
-                GameView.selectedDeck.FullRedraw();
-                to.FullRedraw();
-                UpdateTopBarText();
-            }
-            else
-            {
-                var error = result.Errors[0].Message;
-                this.view.SetInvalidMoveMessage(error);
-            }
+            CommitMove();
 
-            GameView.selectedDeck?.ClearFocus();
-            GameView.selectedDeck = null;
-            GameView.selectedCard = null;
+            fromDeck.PopCards(cardsToMove.Count);
+            toDeck.PushCards(cardsToMove);
 
-            if (state.IsGameFinished())
-            {
-                MessageBox.Query(50, 7, "Wygrałeś!", $"Liczna ruchów: {state.moveCount}", "Wyjdź do menu głównego");
-                Application.RequestStop();
-            }
+            OnDeckChange?.Invoke(fromDeck);
+            OnDeckChange?.Invoke(toDeck);
+
+            return result;
+        }
+
+        public bool UndoMove()
+        {
+            if (stateHistory.Count() == 0) return false;
+
+            var lastStateJson = stateHistory.Last();
+            stateHistory.RemoveLast();
+            state = GameState.FromJSON(lastStateJson);
+
+            return true;
         }
 
         public void NextReserveCard()
         {
-            state.CommitMove();
-            UpdateTopBarText();
-            view.reserveDeckView.NextCard();
+            CommitMove();
+            state.reserveDeck.NextCard();
+            OnDeckChange?.Invoke(state.reserveDeck);
         }
 
-        public void UndoMove()
+        private void CommitMove()
         {
-            if (this.state.UndoMove())
+            if (stateHistory.Count == Game.MAX_HISTORY_SIZE) stateHistory.RemoveFirst();
+            stateHistory.AddLast(state.SerializeToJSON());
+            state.moveCount++;
+        }
+
+        public static List<Card> ShuffleCards(List<Card> cards, Random random)
+        {
+            var arr = cards.ToArray();
+            random.Shuffle(arr);
+            return arr.ToList();
+        }
+
+        private static List<Card> GetFullCardList()
+        {
+            List<Card> cards = new(52);
+
+            foreach (CardType type in Enum.GetValues(typeof(CardType)))
             {
-                UpdateTopBarText();
-                view.FullRedraw(this.state);
+                foreach (CardRank rank in Enum.GetValues(typeof(CardRank)))
+                {
+                    cards.Add(new Card(type, rank));
+                }
             }
 
+            return cards;
         }
     }
 }

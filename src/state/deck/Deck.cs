@@ -19,7 +19,7 @@ namespace solitare
         {
             if (CanMoveCardHere(cards[0]).IsFailed) throw new Exception("called PushCard, but cant move here!");
 
-            cards.AddRange(cards);
+            this.cards.AddRange(cards);
         }
 
         public void PopCards(int count)

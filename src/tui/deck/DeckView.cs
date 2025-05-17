@@ -2,25 +2,20 @@ using Terminal.Gui;
 
 namespace solitare
 {
-    public interface IDeckView
+    public abstract class DeckView : Terminal.Gui.View
     {
-        Deck deck { get; }
-        Stack<CardView> cardViews { get; }
+        protected Game game;
+        private Stack<CardView> cardViews { get; } = [];
+        private CardBaseView? baseView;
+        private Action<DeckView, CardView> OnClick;
 
-        void ClearFocus();
-        void FullRedraw();
-    }
+        public Deck deck;
 
-    public abstract class DeckView<T> : Terminal.Gui.View, IDeckView where T : Deck
-    {
-        protected T _deck;
-        public Deck deck => _deck;
-        public Stack<CardView> cardViews { get; private set; } = [];
-        protected CardBaseView? baseView;
-
-        public DeckView(T deck, Pos x, Pos y)
+        public DeckView(Deck deck, Pos x, Pos y, Game game, Action<DeckView, CardView?> OnClick)
         {
-            this._deck = deck;
+            this.game = game;
+            this.deck = deck;
+            this.OnClick = OnClick;
             this.X = x;
             this.Y = y;
             this.Width = Dim.Auto();
@@ -30,17 +25,16 @@ namespace solitare
 
             CreateCardViews();
 
+            game.OnDeckChange += (changedDeck) =>
+            {
+                if (deck != changedDeck) return;
+
+                FullRedraw();
+            };
+
             this.Accepting += (s, e) =>
             {
-                if (GameView.selectedDeck == null)
-                {
-                    if (cardViews.Count > 0) GameView.selectedDeck = this;
-                }
-                else if (GameView.selectedCard != null && GameView.selectedDeck != this)
-                {
-                    GameView.selectedDeck.ClearFocus();
-                    Game.instance!.TryMoveCard(this);
-                }
+                if (IsEmpty()) OnClick(this, null);
             };
         }
 
@@ -60,27 +54,31 @@ namespace solitare
         {
             this.Remove(baseView);
             foreach (var view in cardViews) this.Remove(view);
+            cardViews.Clear();
             this.CreateCardViews();
         }
 
         protected void CreateCardViews()
         {
-            var cardCount = _deck.cards.Count;
+            var cardCount = deck.cards.Count;
 
-            baseView = new CardBaseView(0, 0, _deck.cards.Count == 0);
+            baseView = new CardBaseView(0, 0, deck.cards.Count == 0);
             this.Add(baseView);
 
             for (int i = 0; i < cardCount; i++)
             {
-                var card = _deck.cards[i];
+                var card = deck.cards[i];
                 var (x, y) = GetCardPositionByDeckPosition(card, i);
                 var focusable = ShouldCardBeFocusable(card, i);
                 var hidden = ShouldCardBeHidden(card, i);
-                var view = new CardView(card, x, y, hidden, i, focusable);
+                var view = new CardView(card, x, y, hidden, i, focusable, (cardView) => OnClick(this, cardView));
                 cardViews.Push(view);
                 this.Add(view);
             }
-
         }
+
+        public bool IsEmpty() => cardViews.Count == 0;
+
+        public CardView TopCardView() => cardViews.Peek();
     }
 }

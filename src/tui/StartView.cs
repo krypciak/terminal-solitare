@@ -40,10 +40,9 @@ namespace solitare
                 Difficulty difficulty = index == 0 ? Difficulty.Easy : Difficulty.Hard;
 
                 var seed = int.Parse(seedTextField.Text);
-
-                var state = new GameState(seed, difficulty);
-                new Game(state);
-
+                var game = new Game(seed, difficulty);
+                var view = new GameView(game);
+                Application.Run(view);
             };
         }
     }

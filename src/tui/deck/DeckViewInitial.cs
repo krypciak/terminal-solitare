@@ -2,9 +2,10 @@ using Terminal.Gui;
 
 namespace solitare
 {
-    public class DeckViewInitial : DeckView<DeckInitial>
+    public class DeckViewInitial : DeckView
     {
-        public DeckViewInitial(DeckInitial deck, Pos x, Pos y) : base(deck, x, y) { }
+        public DeckViewInitial(DeckInitial deck, Pos x, Pos y, Game game, Action<DeckView, CardView?> OnClick)
+            : base(deck, x, y, game, OnClick) { }
 
 
         override protected (int, int) GetCardPositionByDeckPosition(Card card, int i)
@@ -13,7 +14,7 @@ namespace solitare
         }
         override protected bool ShouldCardBeHidden(Card card, int i)
         {
-            return i != _deck.cards.Count - 1;
+            return i != deck.cards.Count - 1;
         }
 
         protected override bool ShouldCardBeFocusable(Card card, int i)

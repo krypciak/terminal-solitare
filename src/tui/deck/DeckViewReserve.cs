@@ -2,50 +2,39 @@ using Terminal.Gui;
 
 namespace solitare
 {
-    public class DeckViewReserve : DeckView<DeckReserve>
+    public class DeckViewReserve : DeckView
     {
-        private Action<bool> updateButtonText;
-
-        public DeckViewReserve(DeckReserve deck, Pos x, Pos y, Action<bool> updateButtonText) : base(deck, x, y)
+        public DeckViewReserve(DeckReserve deck, Pos x, Pos y, Game game, Action<DeckView, CardView?> OnClick, ReserveView reserveView)
+            : base(deck, x, y, game, OnClick)
         {
-            this.updateButtonText = updateButtonText;
+            game.OnDeckChange += (changedDeck) =>
+            {
+                if (deck != changedDeck) return;
+                reserveView.SetEmpty(deck.cards.Count == 0);
+            };
         }
 
         override protected (int, int) GetCardPositionByDeckPosition(Card card, int i)
         {
-            int deckPosRev = _deck.cards.Count - i - 1;
-            if (deckPosRev >= Game.instance!.reserveShowCount) return (0, 0);
+            int deckPosRev = deck.cards.Count - i - 1;
+            if (deckPosRev >= game.reserveShowCount) return (0, 0);
             return (deckPosRev * (CardView.WIDTH + 1), 0);
         }
 
         override protected bool ShouldCardBeHidden(Card card, int i)
         {
-            int deckPosRev = _deck.cards.Count - i - 1;
-            return deckPosRev >= Game.instance!.reserveShowCount;
+            int deckPosRev = deck.cards.Count - i - 1;
+            return deckPosRev >= game.reserveShowCount;
         }
 
         protected override bool ShouldCardBeFocusable(Card card, int i)
         {
-            return i == _deck.cards.Count - 1;
+            return i == deck.cards.Count - 1;
         }
 
         protected override bool ShouldDisableFocusOnPushCardView()
         {
             return true;
-        }
-
-        public override void FullRedraw()
-        {
-            base.FullRedraw();
-
-            updateButtonText(_deck.cards.Count == 0);
-        }
-
-        public void NextCard()
-        {
-            _deck.NextCard();
-
-            this.FullRedraw();
         }
     }
 }

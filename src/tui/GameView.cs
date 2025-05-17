@@ -13,13 +13,14 @@ namespace solitare
 {
     public partial class GameView
     {
+        private Game game;
         private DeckViewFinal[] finalDeckViews;
         private DeckViewInitial[] initialDeckViews;
-        public DeckViewReserve reserveDeckView;
-        public ReserveView reserveNextButton;
+        private DeckViewReserve reserveDeckView;
+        private ReserveView reserveNextButton;
 
-        public static IDeckView selectedDeck = null;
-        public static CardView selectedCard = null;
+        private DeckView selectedDeck = null;
+        private CardView selectedCard = null;
 
         private int invalidMoveCount = 0;
 
@@ -43,31 +44,42 @@ namespace solitare
             this.Add(shourtcut);
         }
 
-        private void AttachShortcutToDeckView<T>(DeckView<T> deckView, Key key) where T : Deck
+        private void AttachShortcutToDeckView(DeckView deckView, Key key)
         {
             AttachShortcutToView(deckView, key, () =>
             {
-                if (GameView.selectedCard == null)
-                {
-                    GameView.selectedCard = deckView.cardViews.Count == 0 ? null : deckView.cardViews.Peek();
-                }
+                var card = deckView.IsEmpty() ? null : deckView.TopCardView();
+                OnDeckViewClick(deckView, card);
             });
         }
 
-        public GameView(GameState gameState)
+        public GameView(Game game)
         {
-            FullRedraw(gameState);
+            this.game = game;
+            FullRedraw();
+
+            game.OnDeckChange += (deck) =>
+            {
+                UpdateUndoShortcutText(game.GetStateHistoryLength());
+                UpdateMoveCountText(game.state.moveCount);
+            };
         }
 
-        public void FullRedraw(GameState gameState)
+        public void FullRedraw()
         {
             this.RemoveAll();
             InitializeComponent();
 
             var initialDeckY = 4;
-            initialDeckViews = gameState.initialDecks.Select((deck, i) =>
+            initialDeckViews = game.state.initialDecks.Select((deck, i) =>
             {
-                var deckView = new DeckViewInitial(deck, Pos.Absolute(3 + (i * (CardView.WIDTH + 1))), Pos.Absolute(initialDeckY));
+                var deckView = new DeckViewInitial(
+                    deck,
+                    Pos.Absolute(3 + (i * (CardView.WIDTH + 1))),
+                    Pos.Absolute(initialDeckY),
+                    game,
+                    OnDeckViewClick
+                );
                 this.Add(deckView);
 
                 Key[] keyMap = { Key.Q, Key.W, Key.E, Key.R, Key.T, Key.Y, Key.U, Key.I, };
@@ -78,9 +90,15 @@ namespace solitare
             ).ToArray();
 
             var finalDeckY = initialDeckY + CardView.HEIGHT + 14 + 3;
-            finalDeckViews = gameState.finalDecks.Select((deck, i) =>
+            finalDeckViews = game.state.finalDecks.Select((deck, i) =>
             {
-                var deckView = new DeckViewFinal(deck, Pos.Absolute(3 + (i * (CardView.WIDTH + 1))), Pos.Absolute(finalDeckY));
+                var deckView = new DeckViewFinal(
+                    deck,
+                    Pos.Absolute(3 + (i * (CardView.WIDTH + 1))),
+                    Pos.Absolute(finalDeckY),
+                    game,
+                    OnDeckViewClick
+                );
                 this.Add(deckView);
 
                 Key[] keyMap = { Key.A, Key.S, Key.D, Key.F, };
@@ -91,18 +109,52 @@ namespace solitare
             ).ToArray();
 
             var reserveNextX = 50;
-            reserveNextButton = new ReserveView(reserveNextX, finalDeckY);
+            reserveNextButton = new ReserveView(reserveNextX, finalDeckY, game.NextReserveCard);
             this.Add(reserveNextButton);
             AttachShortcutToView(reserveNextButton, Key.G, () => { });
 
-
             reserveDeckView = new DeckViewReserve(
-                    gameState.reserveDeck,
-                    Pos.Absolute(reserveNextX + CardView.WIDTH + 1),
-                    Pos.Absolute(finalDeckY),
-                    (isEmpty) => reserveNextButton.SetEmpty(isEmpty));
+                game.state.reserveDeck,
+                Pos.Absolute(reserveNextX + CardView.WIDTH + 1),
+                Pos.Absolute(finalDeckY),
+                game,
+                OnDeckViewClick,
+                reserveNextButton
+            );
             this.Add(reserveDeckView);
             AttachShortcutToDeckView(reserveDeckView, Key.H);
+        }
+
+        private void OnDeckViewClick(DeckView deckView, CardView cardView)
+        {
+            if (selectedCard == null)
+            {
+                selectedCard = cardView;
+            }
+
+            if (selectedDeck == null)
+            {
+                if (!deckView.IsEmpty()) selectedDeck = deckView;
+            }
+            else if (selectedCard != null && selectedDeck != deckView)
+            {
+                selectedDeck.ClearFocus();
+
+                var fromDeck = selectedDeck.deck;
+                var toDeck = deckView.deck;
+
+                var result = game.TryMoveCard(fromDeck, toDeck, selectedCard.card);
+
+                if (result.IsFailed)
+                {
+                    var error = result.Errors[0].Message;
+                    SetInvalidMoveMessage(error);
+                }
+
+                selectedDeck?.ClearFocus();
+                selectedCard = null;
+                selectedDeck = null;
+            }
         }
     }
 }

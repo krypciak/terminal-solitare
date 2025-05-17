@@ -8,7 +8,13 @@ namespace solitare
         [JsonInclude]
         private List<Card> hiddenCards = new List<Card>();
 
-        public DeckReserve(List<Card> cards) : base(cards) { }
+        [JsonInclude]
+        private int reserveShowCount;
+
+        public DeckReserve(List<Card> cards, int reserveShowCount) : base(cards)
+        {
+            this.reserveShowCount = reserveShowCount;
+        }
 
         public override Result CanMoveCardHere(Card card)
         {
@@ -21,10 +27,11 @@ namespace solitare
             {
                 if (hiddenCards.Count == 0) return;
 
-                if (Game.instance!.reserveShowCount == 1)
+                if (reserveShowCount == 1)
                 {
                     cards.Clear();
-                    cards.AddRange(Game.instance!.ShuffleCards(hiddenCards));
+                    var random = new Random();
+                    cards.AddRange(Game.ShuffleCards(hiddenCards, random));
                 }
                 else
                 {
@@ -36,7 +43,7 @@ namespace solitare
             }
             else
             {
-                for (int i = 0; i < Game.instance!.reserveShowCount && cards.Count > 0; i++)
+                for (int i = 0; i < reserveShowCount && cards.Count > 0; i++)
                 {
                     var topCard = cards.Last();
                     this.PopCards(1);
