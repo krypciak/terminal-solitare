@@ -120,7 +120,7 @@ namespace solitare
             this.startButton.Arrangement = Terminal.Gui.ViewArrangement.Fixed;
             this.startButton.ColorScheme = this.greenScheme;
             this.startButton.CanFocus = true;
-            this.startButton.ShadowStyle = Terminal.Gui.ShadowStyle.Opaque;
+            this.startButton.ShadowStyle = Terminal.Gui.ShadowStyle.Transparent;
             this.startButton.Data = "startButton";
             this.startButton.Text = "Rozpocznij grę";
             this.startButton.TextAlignment = Terminal.Gui.Alignment.Center;

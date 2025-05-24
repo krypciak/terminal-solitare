@@ -15,7 +15,7 @@ namespace solitare
             this.Visible = true;
             this.CanFocus = focusable;
             this.Enabled = true;
-            this.ShadowStyle = ShadowStyle.Opaque;
+            this.ShadowStyle = ShadowStyle.Transparent;
             this.HighlightStyle = HighlightStyle.None;
             this.NoDecorations = true;
             this.NoPadding = true;
