@@ -1,42 +1,41 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Solitare
+namespace Solitare;
+
+public class GameState
 {
-    public class GameState
+    [JsonInclude]
+    public DeckFinal[] finalDecks { get; private set; }
+
+    [JsonInclude]
+    public DeckInitial[] initialDecks { get; private set; }
+
+    [JsonInclude]
+    public DeckReserve reserveDeck { get; private set; }
+
+    [JsonInclude]
+    public int moveCount;
+
+    [JsonConstructor]
+    public GameState(DeckFinal[] finalDecks, DeckInitial[] initialDecks, DeckReserve reserveDeck, int moveCount)
     {
-        [JsonInclude]
-        public DeckFinal[] finalDecks { get; private set; }
+        this.finalDecks = finalDecks;
+        this.initialDecks = initialDecks;
+        this.reserveDeck = reserveDeck;
+        this.moveCount = moveCount;
+    }
 
-        [JsonInclude]
-        public DeckInitial[] initialDecks { get; private set; }
-
-        [JsonInclude]
-        public DeckReserve reserveDeck { get; private set; }
-
-        [JsonInclude]
-        public int moveCount;
-
-        [JsonConstructor]
-        public GameState(DeckFinal[] finalDecks, DeckInitial[] initialDecks, DeckReserve reserveDeck, int moveCount)
+    public string SerializeToJSON()
+    {
+        return JsonSerializer.Serialize(this, typeof(GameState), new JsonSerializerOptions
         {
-            this.finalDecks = finalDecks;
-            this.initialDecks = initialDecks;
-            this.reserveDeck = reserveDeck;
-            this.moveCount = moveCount;
-        }
+            IncludeFields = true,
+        });
+    }
 
-        public string SerializeToJSON()
-        {
-            return JsonSerializer.Serialize(this, typeof(GameState), new JsonSerializerOptions
-            {
-                IncludeFields = true,
-            });
-        }
-
-        public static GameState FromJSON(string json)
-        {
-            return JsonSerializer.Deserialize<GameState>(json)!;
-        }
+    public static GameState FromJSON(string json)
+    {
+        return JsonSerializer.Deserialize<GameState>(json)!;
     }
 }

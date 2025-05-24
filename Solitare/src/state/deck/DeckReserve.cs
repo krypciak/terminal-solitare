@@ -1,55 +1,55 @@
 using System.Text.Json.Serialization;
 using FluentResults;
 
-namespace Solitare
+namespace Solitare;
+
+public class DeckReserve : Deck
 {
-    public class DeckReserve : Deck
+    [JsonInclude]
+    private List<Card> hiddenCards = new List<Card>();
+
+    [JsonInclude]
+    private int reserveShowCount;
+
+    public DeckReserve(List<Card> cards, int reserveShowCount) : base(cards)
     {
-        [JsonInclude]
-        private List<Card> hiddenCards = new List<Card>();
+        this.reserveShowCount = reserveShowCount;
+    }
 
-        [JsonInclude]
-        private int reserveShowCount;
+    public override Result CanMoveCardHere(Card card)
+    {
+        return Result.Fail("Nie wolno przenosić kart na stos rezerwowy!");
+    }
 
-        public DeckReserve(List<Card> cards, int reserveShowCount) : base(cards)
+    public void NextCard()
+    {
+        if (cards.Count == 0)
         {
-            this.reserveShowCount = reserveShowCount;
-        }
+            if (hiddenCards.Count == 0) return;
 
-        public override Result CanMoveCardHere(Card card)
-        {
-            return Result.Fail("Nie wolno przenosić kart na stos rezerwowy!");
-        }
-
-        public void NextCard()
-        {
-            if (cards.Count == 0)
+            if (reserveShowCount == 1)
             {
-                if (hiddenCards.Count == 0) return;
-
-                if (reserveShowCount == 1)
-                {
-                    cards.Clear();
-                    var random = new Random();
-                    cards.AddRange(Game.ShuffleCards(hiddenCards, random));
-                }
-                else
-                {
-                    cards.Clear();
-                    cards.AddRange(new List<Card>(hiddenCards));
-                    cards.Reverse();
-                }
-                hiddenCards.Clear();
+                cards.Clear();
+                var random = new Random();
+                cards.AddRange(Game.ShuffleCards(hiddenCards, random));
             }
             else
             {
-                for (int i = 0; i < reserveShowCount && cards.Count > 0; i++)
-                {
-                    var topCard = cards.Last();
-                    this.PopCards(1);
-                    hiddenCards.Add(topCard);
-                }
+                cards.Clear();
+                cards.AddRange(new List<Card>(hiddenCards));
+                cards.Reverse();
+            }
+            hiddenCards.Clear();
+        }
+        else
+        {
+            for (int i = 0; i < reserveShowCount && cards.Count > 0; i++)
+            {
+                var topCard = cards.Last();
+                this.PopCards(1);
+                hiddenCards.Add(topCard);
             }
         }
     }
 }
+

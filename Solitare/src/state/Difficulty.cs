@@ -1,8 +1,7 @@
-namespace Solitare
+namespace Solitare;
+
+public enum Difficulty
 {
-    public enum Difficulty
-    {
-        Easy,
-        Hard
-    }
+    Easy,
+    Hard
 }
