@@ -9,14 +9,17 @@ namespace Solitare
         public GameState state { get; private set; }
         private LinkedList<string> stateHistory = [];
 
+        public Difficulty difficulty { get; }
+
         public int GetStateHistoryLength() => stateHistory.Count;
         public int reserveShowCount { get; }
 
-        // after card is moved
         public event Action<Deck>? OnDeckChange;
+        public event Action? OnGameWon;
 
         public Game(int seed, Difficulty difficulty)
         {
+            this.difficulty = difficulty;
             reserveShowCount = difficulty == Difficulty.Easy ? 1 : 3;
 
             DeckFinal[] finalDecks = [
@@ -48,7 +51,20 @@ namespace Solitare
 
             var reserveDeck = new DeckReserve(allCards.Skip(allCardsI).ToList(), reserveShowCount);
 
+            // {
+            //     foreach (CardType type in Enum.GetValues(typeof(CardType)))
+            //     {
+            //         foreach (CardRank rank in Enum.GetValues(typeof(CardRank)))
+            //         {
+            //             finalDecks[(int)type].PushCards([new Card(type, rank)]);
+            //         }
+            //     }
+            //     finalDecks[3].PopCards(1);
+            // }
+
             state = new GameState(finalDecks, initialDecks, reserveDeck, 0);
+
+            Leaderboard.instance.Register(this);
         }
 
         public bool IsGameFinished()
@@ -75,6 +91,11 @@ namespace Solitare
 
             OnDeckChange?.Invoke(fromDeck);
             OnDeckChange?.Invoke(toDeck);
+
+            if (IsGameFinished())
+            {
+                OnGameWon?.Invoke();
+            }
 
             return result;
         }

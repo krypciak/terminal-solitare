@@ -44,6 +44,9 @@ namespace Solitare
                 var view = new GameView(game);
                 Application.Run(view);
             };
+
+            var leaderboard = new LeaderboardView(difficultyLabel.X + 40, difficultyLabel.Y + 6);
+            this.Add(leaderboard);
         }
     }
 }

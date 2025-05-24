@@ -66,12 +66,12 @@ Talia kart
 
 ### Zakończenie gry
 
-- [ ] Wygrana:
-  - [ ] Po ułożeniu wszystkich kart na stosach końcowych powinien pojawić się ekran wygranej.
-  - [ ] Gra powinna zliczać liczbę ruchów, w których gracz ułożył pasjansa
-  - [ ] i zapisywać ją w rankingu najlepszych wyników.
-- [ ] Przegrana:
-  - [ ] W trakcie gry powinna być dostępna opcja zakończenia gry i rozpoczęcia od nowa.
+- [x] Wygrana:
+  - [x] Po ułożeniu wszystkich kart na stosach końcowych powinien pojawić się ekran wygranej.
+  - [x] Gra powinna zliczać liczbę ruchów, w których gracz ułożył pasjansa
+  - [x] i zapisywać ją w rankingu najlepszych wyników.
+- [x] Przegrana:
+  - [x] W trakcie gry powinna być dostępna opcja zakończenia gry i rozpoczęcia od nowa.
 
 ## 2. Założenia projektowe
 Należy zaimplementować grę w pasjansa według opisanych zasad.

@@ -63,6 +63,12 @@ namespace Solitare
                 UpdateUndoShortcutText(game.GetStateHistoryLength());
                 UpdateMoveCountText(game.state.moveCount);
             };
+
+            game.OnGameWon += () =>
+            {
+                MessageBox.Query(50, 7, "Wygrałeś!", $"Liczba ruchów: {game.state.moveCount}", "Wyjdź do menu głównego");
+                Application.RequestStop();
+            };
         }
 
         public void FullRedraw()

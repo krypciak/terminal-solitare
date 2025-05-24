@@ -52,6 +52,7 @@ namespace Solitare
             this.X = 0;
             this.Y = 0;
 
+            var baseX = Pos.Center() - 18;
             var baseY = Pos.Center() - 4;
             this.Visible = true;
             this.Arrangement = Terminal.Gui.ViewArrangement.Overlapped;
@@ -63,7 +64,7 @@ namespace Solitare
             this.Title = "Pasjans gigathon 2025 (Kliknij Esc by wyjść)";
             this.difficultyLabel.Width = Dim.Auto();
             this.difficultyLabel.Height = Dim.Auto();
-            this.difficultyLabel.X = Pos.Center();
+            this.difficultyLabel.X = baseX;
             this.difficultyLabel.Y = baseY;
             this.difficultyLabel.Visible = true;
             this.difficultyLabel.Arrangement = Terminal.Gui.ViewArrangement.Fixed;
@@ -75,7 +76,7 @@ namespace Solitare
             this.Add(this.difficultyLabel);
             this.difficultyRadio.Width = 10;
             this.difficultyRadio.Height = 2;
-            this.difficultyRadio.X = Pos.Center();
+            this.difficultyRadio.X = baseX;
             this.difficultyRadio.Y = baseY + 2;
             this.difficultyRadio.Visible = true;
             this.difficultyRadio.Arrangement = Terminal.Gui.ViewArrangement.Fixed;
@@ -89,7 +90,7 @@ namespace Solitare
             this.Add(this.difficultyRadio);
             this.seedLabel.Width = Dim.Auto();
             this.seedLabel.Height = Dim.Auto();
-            this.seedLabel.X = Pos.Center();
+            this.seedLabel.X = baseX;
             this.seedLabel.Y = baseY + 4;
             this.seedLabel.Visible = true;
             this.seedLabel.Arrangement = Terminal.Gui.ViewArrangement.Fixed;
@@ -101,7 +102,7 @@ namespace Solitare
             this.Add(this.seedLabel);
             this.seedTextField.Width = 15;
             this.seedTextField.Height = 1;
-            this.seedTextField.X = Pos.Center();
+            this.seedTextField.X = baseX;
             this.seedTextField.Y = baseY + 5;
             this.seedTextField.Visible = true;
             this.seedTextField.Arrangement = Terminal.Gui.ViewArrangement.Fixed;
@@ -114,7 +115,7 @@ namespace Solitare
             this.Add(this.seedTextField);
             this.startButton.Width = Dim.Auto();
             this.startButton.Height = Dim.Auto();
-            this.startButton.X = Pos.Center();
+            this.startButton.X = baseX;
             this.startButton.Y = baseY + 8;
             this.startButton.Visible = true;
             this.startButton.Arrangement = Terminal.Gui.ViewArrangement.Fixed;
