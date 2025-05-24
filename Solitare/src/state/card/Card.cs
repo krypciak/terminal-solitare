@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace solitare
+namespace Solitare
 {
     public class Card
     {

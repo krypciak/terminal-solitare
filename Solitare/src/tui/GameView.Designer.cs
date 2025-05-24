@@ -1,4 +1,4 @@
-namespace solitare
+namespace Solitare
 {
     using Terminal.Gui;
     using Color = Terminal.Gui.Color;

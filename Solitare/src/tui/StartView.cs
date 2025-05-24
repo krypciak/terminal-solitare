@@ -11,7 +11,7 @@
 
 using Terminal.Gui;
 
-namespace solitare
+namespace Solitare
 {
 
     public partial class StartView

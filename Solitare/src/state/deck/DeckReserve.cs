@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using FluentResults;
 
-namespace solitare
+namespace Solitare
 {
     public class DeckReserve : Deck
     {

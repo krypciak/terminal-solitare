@@ -1,6 +1,6 @@
 using FluentResults;
 
-namespace solitare
+namespace Solitare
 {
     public class Game
     {

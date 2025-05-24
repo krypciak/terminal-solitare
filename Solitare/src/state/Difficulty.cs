@@ -1,4 +1,4 @@
-namespace solitare
+namespace Solitare
 {
     public enum Difficulty
     {

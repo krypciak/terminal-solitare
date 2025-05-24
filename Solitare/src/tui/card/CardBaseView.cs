@@ -1,7 +1,7 @@
 using Terminal.Gui;
 using Color = Terminal.Gui.Color;
 
-namespace solitare
+namespace Solitare
 {
     public class CardBaseView : Button
     {

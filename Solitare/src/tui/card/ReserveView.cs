@@ -1,6 +1,6 @@
 using Terminal.Gui;
 
-namespace solitare
+namespace Solitare
 {
     public class ReserveView : CardBaseView
     {
