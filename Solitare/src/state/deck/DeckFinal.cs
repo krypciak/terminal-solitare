@@ -2,6 +2,9 @@ using FluentResults;
 
 namespace Solitare;
 
+/// <summary>
+/// Represents the deck where you try to place all your cards to win.
+/// </summary>
 public class DeckFinal : Deck
 {
     public DeckFinal(List<Card> cards) : base(cards) { }

@@ -2,7 +2,10 @@ using Terminal.Gui;
 
 namespace Solitare;
 
-public partial class GameView
+/// <summary>
+/// The main view of the game.
+/// </summary>
+public class GameView : Window
 {
     private Game game;
     private DeckViewFinal[] finalDeckViews;
@@ -10,45 +13,42 @@ public partial class GameView
     private DeckViewReserve reserveDeckView;
     private ReserveView reserveNextButton;
 
+    private Label invalidMoveLabel;
+    private MenuBarv2 menu;
+    private Shortcut undoShortcut;
+    private Label moveCount;
+
     private DeckView? selectedDeck = null;
     private CardView? selectedCard = null;
 
     private int invalidMoveCount = 0;
-
-    private void AttachShortcutToView(View view, Key key, Action action)
-    {
-        var shourtcut = new Shortcut
-        {
-            Title = "",
-            Key = key,
-            HighlightStyle = HighlightStyle.Hover,
-            X = view.X,
-            Y = view.Y - 1,
-            CanFocus = false,
-            Action = () =>
-            {
-                action();
-                view.InvokeCommand(Command.Select);
-                view.InvokeCommand(Command.Accept);
-            },
-        };
-        this.Add(shourtcut);
-    }
-
-    private void AttachShortcutToDeckView(DeckView deckView, Key key)
-    {
-        AttachShortcutToView(deckView, key, () =>
-        {
-            var card = deckView.IsEmpty() ? null : deckView.TopCardView();
-            OnDeckViewClick(deckView, card);
-        });
-    }
 
 #pragma warning disable CS8618
     public GameView(Game game)
 #pragma warning restore CS8618
     {
         this.game = game;
+
+        this.Width = Dim.Fill(0);
+        this.Height = Dim.Fill(0);
+        this.X = 0;
+        this.Y = 0;
+        this.Visible = true;
+        this.Arrangement = Terminal.Gui.ViewArrangement.Overlapped;
+        this.CanFocus = true;
+        this.ShadowStyle = Terminal.Gui.ShadowStyle.None;
+        this.Modal = false;
+        this.TextAlignment = Terminal.Gui.Alignment.Start;
+        this.Title = "Pasjans gigathon 2025";
+
+        this.ColorScheme = new Terminal.Gui.ColorScheme(
+            new Terminal.Gui.Attribute(Color.Black, Color.Green),
+            new Terminal.Gui.Attribute(Color.Black, Color.BrightGreen),
+            new Terminal.Gui.Attribute(Color.Black, Color.Green),
+            new Terminal.Gui.Attribute(Color.Black, Color.Green),
+            new Terminal.Gui.Attribute(Color.Black, Color.Green)
+        );
+
         FullRedraw();
 
         game.OnDeckChange += (deck) =>
@@ -67,7 +67,9 @@ public partial class GameView
     public void FullRedraw()
     {
         this.RemoveAll();
-        InitializeComponent();
+
+        InitializeInvalidMoveLabel();
+        InitializeMenu();
 
         var initialDeckY = 4;
         initialDeckViews = game.state.initialDecks.Select((deck, i) =>
@@ -124,6 +126,56 @@ public partial class GameView
         AttachShortcutToDeckView(reserveDeckView, Key.H);
     }
 
+    public void UpdateUndoShortcutText(int moves)
+    {
+        undoShortcut.Title = $"Cofnij ruch ({moves}/{Game.MAX_HISTORY_SIZE})";
+    }
+
+    public void UpdateMoveCountText(int moveCount)
+    {
+        this.moveCount.Title = $"Liczba ruchów: {moveCount}";
+    }
+
+    public async void SetInvalidMoveMessage(string error)
+    {
+        this.invalidMoveLabel.Title = $" Zły ruch: {error}";
+        var currentInvalidMoveCount = ++invalidMoveCount;
+        await Task.Delay(5000);
+        if (currentInvalidMoveCount == invalidMoveCount)
+        {
+            this.invalidMoveLabel.Title = "";
+        }
+    }
+
+    private void AttachShortcutToView(View view, Key key, Action action)
+    {
+        var shourtcut = new Shortcut
+        {
+            Title = "",
+            Key = key,
+            HighlightStyle = HighlightStyle.Hover,
+            X = view.X,
+            Y = view.Y - 1,
+            CanFocus = false,
+            Action = () =>
+            {
+                action();
+                view.InvokeCommand(Command.Select);
+                view.InvokeCommand(Command.Accept);
+            },
+        };
+        this.Add(shourtcut);
+    }
+
+    private void AttachShortcutToDeckView(DeckView deckView, Key key)
+    {
+        AttachShortcutToView(deckView, key, () =>
+        {
+            var card = deckView.IsEmpty() ? null : deckView.TopCardView();
+            OnDeckViewClick(deckView, card);
+        });
+    }
+
     private void OnDeckViewClick(DeckView deckView, CardView? cardView)
     {
         if (selectedCard == null)
@@ -154,6 +206,61 @@ public partial class GameView
             selectedCard = null;
             selectedDeck = null;
         }
+    }
+
+    private void InitializeInvalidMoveLabel()
+    {
+        this.invalidMoveLabel = new Terminal.Gui.Label()
+        {
+            X = Pos.Absolute(0),
+            Y = Pos.Absolute(1),
+            CanFocus = false,
+            Visible = true,
+            TextAlignment = Terminal.Gui.Alignment.Start,
+            Title = "",
+            ColorScheme = new Terminal.Gui.ColorScheme(new Terminal.Gui.Attribute(Color.Red, Color.White)),
+        };
+        this.Add(this.invalidMoveLabel);
+    }
+
+    private void InitializeMenu()
+    {
+        menu = new Terminal.Gui.MenuBarv2
+        {
+            ColorScheme = new Terminal.Gui.ColorScheme(
+                new Terminal.Gui.Attribute(Color.Black, Color.BrightGreen)
+            )
+        };
+        menu.Add(new Shortcut()
+        {
+            Title = "Wyjdź do menu głównego",
+            Key = Key.Esc,
+            HighlightStyle = HighlightStyle.Hover,
+            Action = () => Application.RequestStop()
+        });
+
+        menu.Add(new Label { Title = " | ", CanFocus = false, });
+
+        undoShortcut = new Shortcut
+        {
+            Key = Key.Z,
+            HighlightStyle = HighlightStyle.Hover,
+            Action = () =>
+            {
+                game.UndoMove();
+                FullRedraw();
+            }
+        };
+        UpdateUndoShortcutText(0);
+        menu.Add(undoShortcut);
+
+        menu.Add(new Label { Title = " | ", CanFocus = false, });
+
+        moveCount = new Label();
+        UpdateMoveCountText(0);
+        menu.Add(moveCount);
+
+        this.Add(menu);
     }
 }
 

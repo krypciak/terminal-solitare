@@ -1,5 +1,8 @@
 namespace Solitare;
 
+/// <summary>
+/// Value of the card.
+/// </summary>
 public enum CardRank
 {
     Krol = 13,
@@ -19,6 +22,9 @@ public enum CardRank
 
 public static class CardRankExtensions
 {
+    /// <summary>
+    /// Returns the display string of a given card rank.
+    /// </summary>
     public static string GetAsciiText(this CardRank rank) => rank switch
     {
         CardRank.Krol => "K ",

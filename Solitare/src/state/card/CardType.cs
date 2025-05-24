@@ -9,10 +9,12 @@ public enum CardType
     Pik = 2,
     Trefl = 3,
 }
+
 public static class CardTypeExtensions
 {
-    public static bool IsRed(this CardType type) => type is CardType.Karo or CardType.Kier;
-
+    /// <summary>
+    /// Returns the ascii symbol of a given card type.
+    /// </summary>
     public static char GetAsciiSymbol(this CardType type) => type switch
     {
         CardType.Karo => '♦',
@@ -22,8 +24,9 @@ public static class CardTypeExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-
-
+    /// <summary>
+    /// Returns the display color of a given card type.
+    /// </summary>
     public static Color GetDisplayColor(this CardType type) => type switch
     {
         CardType.Karo or CardType.Kier => Color.Red,

@@ -2,6 +2,9 @@ using Terminal.Gui;
 
 namespace Solitare;
 
+/// <summary>
+/// The leaderboard view.
+/// </summary>
 public class LeaderboardView : TableView
 {
     public LeaderboardView(Pos x, Pos y)
@@ -25,6 +28,9 @@ public class LeaderboardView : TableView
         Leaderboard.instance.OnLeaderboardChange += UpdateTable;
     }
 
+    /// <summary>
+    /// Update the table data.
+    /// </summary>
     private void UpdateTable()
     {
         this.Table = new DataTableSource(Leaderboard.instance.CreateDataTable());
