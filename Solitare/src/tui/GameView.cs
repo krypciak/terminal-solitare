@@ -172,6 +172,7 @@ public class GameView : Window
         AttachShortcutToView(deckView, key, () =>
         {
             var card = deckView.IsEmpty() ? null : deckView.TopCardView();
+            if (card != null) card.SetFocus();
             OnDeckViewClick(deckView, card);
         });
     }
@@ -187,24 +188,31 @@ public class GameView : Window
         {
             if (!deckView.IsEmpty()) selectedDeck = deckView;
         }
-        else if (selectedCard != null && selectedDeck != deckView)
+        else if (selectedCard != null)
         {
-            selectedDeck.ClearFocus();
-
-            var fromDeck = selectedDeck.deck;
-            var toDeck = deckView.deck;
-
-            var result = game.TryMoveCard(fromDeck, toDeck, selectedCard.card);
-
-            if (result.IsFailed)
+            if (selectedDeck == deckView)
             {
-                var error = result.Errors[0].Message;
-                SetInvalidMoveMessage(error);
+                selectedCard = cardView;
             }
+            else
+            {
+                selectedDeck.ClearFocus();
 
-            selectedDeck?.ClearFocus();
-            selectedCard = null;
-            selectedDeck = null;
+                var fromDeck = selectedDeck.deck;
+                var toDeck = deckView.deck;
+
+                var result = game.TryMoveCard(fromDeck, toDeck, selectedCard.card);
+
+                if (result.IsFailed)
+                {
+                    var error = result.Errors[0].Message;
+                    SetInvalidMoveMessage(error);
+                }
+
+                selectedDeck?.ClearFocus();
+                selectedCard = null;
+                selectedDeck = null;
+            }
         }
     }
 
