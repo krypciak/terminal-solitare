@@ -89,9 +89,9 @@ Należy zaimplementować grę w pasjansa według opisanych zasad.
 ## 3. Dokumentacja
 
 Do projektu musi zostać załączony plik README, w którym zostaną opisane:
-- [ ] Sposób uruchomienia projektu, czyli lista kroków, jakie należy wykonać, aby uruchomić projekt.
-- [ ] Instrukcje rozgrywki dla użytkownika (sterowanie itp.)
-- [ ] Opis poszczególnych klas, modułów i metod/funkcji.
+- [x] Sposób uruchomienia projektu, czyli lista kroków, jakie należy wykonać, aby uruchomić projekt.
+- [x] Instrukcje rozgrywki dla użytkownika (sterowanie itp.)
+- [x] Opis poszczególnych klas, modułów i metod/funkcji.
   Opis ten może być w formie komentarzy w kodzie lub w osobnym pliku.
 
 ## 4. Punktacja
