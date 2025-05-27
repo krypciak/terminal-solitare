@@ -149,9 +149,10 @@ public class StartView : Window
             CanFocus = true,
             ShadowStyle = ShadowStyle.Transparent,
             Data = "startButton",
-            Text = "Rozpocznij grę",
+            Text = ">Rozpocznij grę<",
             TextAlignment = Alignment.Center,
             IsDefault = false,
+            NoDecorations = true,
         };
         this.Add(startButton);
 
