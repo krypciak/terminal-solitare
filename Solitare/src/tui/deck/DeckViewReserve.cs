@@ -31,10 +31,5 @@ public class DeckViewReserve : DeckView
     {
         return i == deck.cards.Count - 1;
     }
-
-    protected override bool ShouldDisableFocusOnPushCardView()
-    {
-        return true;
-    }
 }
 

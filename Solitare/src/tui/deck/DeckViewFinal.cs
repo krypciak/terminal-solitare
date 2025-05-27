@@ -21,11 +21,5 @@ public class DeckViewFinal : DeckView
     {
         return !ShouldCardBeHidden(card, i);
     }
-
-    protected override bool ShouldDisableFocusOnPushCardView()
-    {
-        return true;
-    }
-
 }
 

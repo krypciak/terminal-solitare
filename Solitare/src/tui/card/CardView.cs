@@ -2,6 +2,9 @@ using Terminal.Gui;
 
 namespace Solitare;
 
+/// <summary>
+/// Represents and displays specific card.
+/// </summary>
 public class CardView : CardBaseView
 {
 

@@ -3,6 +3,10 @@ using Color = Terminal.Gui.Color;
 
 namespace Solitare;
 
+/// <summary>
+/// The base of a card.
+/// It's just a rectangle in the shape of a card.
+/// </summary>
 public class CardBaseView : Button
 {
     public const int WIDTH = 7;

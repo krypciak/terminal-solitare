@@ -2,10 +2,21 @@ using Terminal.Gui;
 
 namespace Solitare;
 
+/// <summary>
+/// Base for different <c>DeckView</c> types.
+/// Each deck has it's own unique layout, and classes that inherit from <c>DeckView</c> define those rules.
+/// </summary>
 public abstract class DeckView : Terminal.Gui.View
 {
     protected Game game;
+    /// <value>
+    /// List of card views that are currently displayed.
+    /// </value>
     private Stack<CardView> cardViews { get; } = [];
+    /// <value>
+    /// The base card at the bottom of the deck saying that the deck is empty when
+    /// there are no other cards in the deck.
+    /// </value>
     private CardBaseView? baseView;
     private Action<DeckView, CardView> OnClick;
 
@@ -38,11 +49,22 @@ public abstract class DeckView : Terminal.Gui.View
         };
     }
 
+    /// <summary>
+    /// Where relative to the deck view should the card view be placed
+    /// </summary>
     abstract protected (int, int) GetCardPositionByDeckPosition(Card card, int i);
+    /// <summary>
+    /// Should the card view be hidden
+    /// </summary>
     abstract protected bool ShouldCardBeHidden(Card card, int i);
+    /// <summary>
+    /// Should the card view be focusable
+    /// </summary>
     abstract protected bool ShouldCardBeFocusable(Card card, int i);
-    abstract protected bool ShouldDisableFocusOnPushCardView();
 
+    /// <summary>
+    /// Clear focus on itself all all of it's children
+    /// </summary>
     public void ClearFoucs()
     {
         base.ClearFocus();
@@ -50,6 +72,9 @@ public abstract class DeckView : Terminal.Gui.View
         foreach (var view in cardViews) view.ClearFocus();
     }
 
+    /// <summary>
+    /// Removes all UI children and adds them again.
+    /// </summary>
     public virtual void FullRedraw()
     {
         this.Remove(baseView);
@@ -58,6 +83,9 @@ public abstract class DeckView : Terminal.Gui.View
         this.CreateCardViews();
     }
 
+    /// <summary>
+    /// Create and display card views based on rules defined
+    /// </summary>
     protected void CreateCardViews()
     {
         var cardCount = deck.cards.Count;

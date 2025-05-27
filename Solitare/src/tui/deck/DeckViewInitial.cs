@@ -21,10 +21,5 @@ public class DeckViewInitial : DeckView
     {
         return card.uncovered;
     }
-
-    protected override bool ShouldDisableFocusOnPushCardView()
-    {
-        return false;
-    }
 }
 

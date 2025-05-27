@@ -2,6 +2,9 @@ using Terminal.Gui;
 
 namespace Solitare;
 
+/// <summary>
+/// The button for requesting next cards from the reserve and requesting reshuffling.
+/// </summary>
 public class ReserveView : CardBaseView
 {
     public ReserveView(Pos x, Pos y, Action OnClick) : base(x, y, true)

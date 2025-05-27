@@ -4,6 +4,7 @@ namespace Solitare;
 
 /// <summary>
 /// The main view of the game.
+/// Manages all of other UI components.
 /// </summary>
 public class GameView : Window
 {
@@ -18,9 +19,18 @@ public class GameView : Window
     private Shortcut undoShortcut;
     private Label moveCount;
 
+    /// <value>
+    /// The currently selected deck.
+    /// </value>
     private DeckView? selectedDeck = null;
+    /// <value>
+    /// The currently selected card.
+    /// </value>
     private CardView? selectedCard = null;
 
+    /// <value>
+    /// Used to prevent <c>invalidMoveLabel</c> from clearing to fast after multiple invalid moves in a row.
+    /// </value>
     private int invalidMoveCount = 0;
 
 #pragma warning disable CS8618
@@ -64,6 +74,9 @@ public class GameView : Window
         };
     }
 
+    /// <summary>
+    /// Removes all UI children and adds them again.
+    /// </summary>
     public void FullRedraw()
     {
         this.RemoveAll();
