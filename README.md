@@ -7,7 +7,15 @@ https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 
 ## Uruchamianie
 
-Trzeba upewnić się, że okienko terminala jest wystarczająco duże, by gra była poprawnie wyświetlana.  
+Trzeba upewnić się, że okienko terminala jest wystarczająco duże, by gra była poprawnie wyświetlana (większe niż domyślny rozmiar wierszu polecenia).  
+
+### Windows
+
+Na systemach windows można otworzyć project w Visual Studio i uruchomić grę z tamtąd.  
+
+### Inne systemy
+
+W terminalu będąc w katalogu głównym projektu:  
 
 ```bash
 dotnet run --project Solitare
@@ -41,7 +49,7 @@ Jeżeli ruch był nie prawidłowy, na górze aplikacji pojawi się napis z opise
 
 TIP: Aby szybko wybrać kartę na szczycie talii, można kliknąć skrót klawiszowy odpowiadający litercę nad talią.
 
-TIP: Na systemach Linux można klikać na karty myszką i tak je wybierać i poruszać, niestety systemy Windows tego nie wspierają :(
+TIP: Na systemach Linux, w Powershell'u i w terminalu Visual Studio (czyli oprócz zwykłego cmd) można klikać na karty myszką i tak je wybierać i poruszać.
 
 Na górnym pasku są widoczne:
 - Przycisk `Wyjdż do menu głównego` (skrót klawiszowy `Esc`)
