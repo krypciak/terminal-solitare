@@ -268,17 +268,19 @@ public class GameView : Window
             HighlightStyle = HighlightStyle.Hover,
             Action = () =>
             {
-                game.UndoMove();
-                FullRedraw();
+                if (game.UndoMove())
+                {
+                    FullRedraw();
+                }
             }
         };
-        UpdateUndoShortcutText(0);
+        UpdateUndoShortcutText(game.GetStateHistoryLength());
         menu.Add(undoShortcut);
 
         menu.Add(new Label { Title = " | ", CanFocus = false, });
 
         moveCount = new Label();
-        UpdateMoveCountText(0);
+        UpdateMoveCountText(game.state.moveCount);
         menu.Add(moveCount);
 
         this.Add(menu);
