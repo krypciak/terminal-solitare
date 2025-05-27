@@ -83,7 +83,7 @@ Należy zaimplementować grę w pasjansa według opisanych zasad.
     należy umieścić odpowiednio sformatowany plik requirements.txt.
   - [x] Zalecane środowiska: Programy napisane w językach C++/C#
     sprawdzane będą w środowiskach Visual Studio i Visual Studio Code.
-  - [ ] Wszystkie pliki projektu należy zapakować w plik .zip/.rar i nazwać go
+  - [x] Wszystkie pliki projektu należy zapakować w plik .zip/.rar i nazwać go
     według szablonu: 16-18_język_imie_nazwisko.
 
 ## 3. Dokumentacja
